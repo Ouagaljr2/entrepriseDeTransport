@@ -33,3 +33,40 @@ build/
 .vscode/
 target/
 
+### front end react###
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+Fnode_modules/
+
+# Expo
+Front/MiniTMS/.expo/
+Front/MiniTMS/dist/
+Front/MiniTMS/web-build/
+Front/MiniTMS/expo-env.d.ts
+
+# Native
+Front/MiniTMS/*.orig.*
+Front/MiniTMS/*.jks
+Front/MiniTMS/*.p8
+Front/MiniTMS/*.p12
+Front/MiniTMS/*.key
+Front/MiniTMS/*.mobileprovision
+
+# Metro
+Front/MiniTMS/.metro-health-check*
+
+# debug
+Front/MiniTMS/npm-debug.*
+Front/MiniTMS/yarn-debug.*
+Front/MiniTMS/yarn-error.*
+
+# macOS
+Front/MiniTMS/.DS_Store
+Front/MiniTMS/*.pem
+
+# local env files
+Front/MiniTMS/.env*.local
+
+# typescript
+Front/MiniTMS/*.tsbuildinfo

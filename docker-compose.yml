@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: mini-tms-db
+    environment:
+      - POSTGRES_DB=minitms
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - tms_network
+
+networks:
+  tms_network:
+    driver: bridge
+
+volumes:
+  db_data:
