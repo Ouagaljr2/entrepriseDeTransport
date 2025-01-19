@@ -38,6 +38,7 @@ target/
 
 # dependencies
 Fnode_modules/
+nodes_modulees/
 
 # Expo
 Front/MiniTMS/.expo/
