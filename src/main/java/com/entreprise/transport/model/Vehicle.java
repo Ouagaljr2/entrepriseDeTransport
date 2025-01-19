@@ -53,8 +53,4 @@ public class Vehicle {
 		this.model = model;
 	}
 
-	// Getters and Setters
-	// Constructor(s)
-	// toString()
-
 }

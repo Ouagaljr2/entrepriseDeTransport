@@ -9,5 +9,6 @@ import com.entreprise.transport.model.Vehicle;
 
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
-	List<Vehicle> findByModelContaining(String model);
+
+	List<Vehicle> findByRegistrationNumberContaining(String registrationNumber);
 }

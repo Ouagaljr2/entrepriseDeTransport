@@ -42,7 +42,7 @@ public class DriverControllerTest {
     @Test
     public void testCreateDriver() throws Exception {
         Driver driver = new Driver();
-        driver.setDriverName("John Doe");
+        driver.setName("John Doe");
         when(driverService.saveDriver(any())).thenReturn(driver);
 
         mockMvc.perform(post("/drivers")

@@ -34,11 +34,11 @@ public class Driver implements Serializable {
 		this.id = id;
 	}
 
-	public String getDriverName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setDriverName(String driverName) {
+	public void setName(String driverName) {
 		this.name = driverName;
 	}
 

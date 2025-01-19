@@ -1,13 +1,13 @@
-// src/screens/DriverScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { ScrollView, View, TextInput, Button, StyleSheet, Image } from 'react-native';
 import DriverForm from '../components/DriverForm';
 import DriverList from '../components/DriverList';
 import { fetchDrivers, searchDrivers } from '../services/driverService';
 
-const DriverScreen = () => {
+const DriversScreen = () => {
     const [drivers, setDrivers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isFormVisible, setFormVisible] = useState(false);
 
     const fetchDriverList = async () => {
         const data = await fetchDrivers();
@@ -23,13 +23,30 @@ const DriverScreen = () => {
         }
     };
 
+    const openForm = () => setFormVisible(true);
+    const closeForm = () => setFormVisible(false);
+
     useEffect(() => {
         fetchDriverList();
     }, []);
 
     return (
         <View style={styles.container}>
-            <DriverForm fetchDrivers={fetchDriverList} />
+            {/* Image en haut de l'écran */}
+            <Image
+                source={require('../assets/drivers.jpg')} // Remplacez par votre image
+                style={styles.image}
+                resizeMode="contain"
+            />
+
+            {!isFormVisible && (
+                <Button title="Ajouter un conducteur" onPress={openForm} />
+            )}
+
+            {isFormVisible && (
+                <DriverForm fetchDrivers={fetchDriverList} onClose={closeForm} />
+            )}
+
             <TextInput
                 style={styles.searchInput}
                 placeholder="Rechercher par nom"
@@ -38,6 +55,7 @@ const DriverScreen = () => {
                 onSubmitEditing={handleSearch}
             />
             <Button title="Rechercher" onPress={handleSearch} />
+
             <DriverList drivers={drivers} fetchDrivers={fetchDriverList} />
         </View>
     );
@@ -46,8 +64,13 @@ const DriverScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: '#f5f5f5',
+        padding: 10,
+    },
+    image: {
+        width: '100%',
+        height: 200, // Ajustez la hauteur selon vos besoins
+        marginBottom: 20,
     },
     searchInput: {
         height: 40,
@@ -59,4 +82,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DriverScreen;
+export default DriversScreen;

@@ -1,10 +1,9 @@
-// src/services/driverService.js
 import api from './api'; // Importer l'instance Axios
 
 export const fetchDrivers = async () => {
     try {
         const response = await api.get('/drivers');
-        return response.data; // Renvoyer les données des conducteurs
+        return response.data;
     } catch (error) {
         console.error('Error fetching drivers:', error);
         return [];
@@ -14,7 +13,7 @@ export const fetchDrivers = async () => {
 export const searchDrivers = async (name) => {
     try {
         const response = await api.get(`/drivers/search?name=${name}`);
-        return response.data; // Renvoyer les données des conducteurs trouvés
+        return response.data;
     } catch (error) {
         console.error('Error searching drivers:', error);
         return [];
@@ -24,7 +23,7 @@ export const searchDrivers = async (name) => {
 export const addDriver = async (driver) => {
     try {
         const response = await api.post('/drivers', driver);
-        return response.status === 200; // Retourne vrai si l'ajout a réussi
+        return response.status === 200;
     } catch (error) {
         console.error('Error adding driver:', error);
         return false;
@@ -34,7 +33,7 @@ export const addDriver = async (driver) => {
 export const updateDriver = async (id, driver) => {
     try {
         const response = await api.put(`/drivers/${id}`, driver);
-        return response.status === 200; // Retourne vrai si la mise à jour a réussi
+        return response.status === 200;
     } catch (error) {
         console.error('Error updating driver:', error);
         return false;
@@ -44,7 +43,7 @@ export const updateDriver = async (id, driver) => {
 export const deleteDriver = async (id) => {
     try {
         const response = await api.delete(`/drivers/${id}`);
-        return response.status === 200; // Retourne vrai si la suppression a réussi
+        return response.status === 200;
     } catch (error) {
         console.error('Error deleting driver:', error);
         return false;

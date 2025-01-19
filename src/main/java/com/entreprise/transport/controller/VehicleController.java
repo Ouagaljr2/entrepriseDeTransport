@@ -45,7 +45,7 @@ public class VehicleController {
 	}
 
 	@GetMapping("/search")
-	public List<Vehicle> searchVehicles(@RequestParam String model) {
-		return vehicleService.searchVehicles(model);
+	public List<Vehicle> searchVehicles(@RequestParam String registrationNumber){
+		return vehicleService.searchVehicles(registrationNumber);
 	}
 }

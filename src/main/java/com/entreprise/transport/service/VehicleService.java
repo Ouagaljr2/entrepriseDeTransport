@@ -24,6 +24,7 @@ public class VehicleService {
     }
 
     public Vehicle updateVehicle(int id, Vehicle updatedVehicle) {
+    	System.out.println("Updating vehicle with id: " + id);
         return vehicleRepository.findById(id).map(vehicle -> {
             vehicle.setRegistrationNumber(updatedVehicle.getRegistrationNumber());
             vehicle.setStatus(updatedVehicle.getStatus());
@@ -35,7 +36,8 @@ public class VehicleService {
         vehicleRepository.deleteById(id);
     }
 
-    public List<Vehicle> searchVehicles(String model) {
-        return vehicleRepository.findByModelContaining(model);
+    public List<Vehicle> searchVehicles(String registrationNumber) {
+    	System.out.println("Searching vehicles with registration number: " + registrationNumber);
+        return vehicleRepository.findByRegistrationNumberContaining(registrationNumber);
     }
 }

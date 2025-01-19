@@ -1,45 +1,57 @@
-// src/components/DriverList.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { deleteDriver, updateDriver } from '../services/driverService';
+import { deleteDriver } from '../services/driverService';
+import DriverForm from './DriverForm';
 
 const DriverList = ({ drivers, fetchDrivers }) => {
+    const [editingDriver, setEditingDriver] = useState(null);
+
     const handleDelete = async (id) => {
         const success = await deleteDriver(id);
         if (success) fetchDrivers();
     };
 
-    const handleUpdate = async (id, updatedDriver) => {
-        const success = await updateDriver(id, updatedDriver);
-        if (success) fetchDrivers();
+    const handleEdit = (driver) => {
+        setEditingDriver(driver); // Définir le conducteur à modifier
+    };
+
+    const closeEditForm = () => {
+        setEditingDriver(null); // Fermer le formulaire d'édition
     };
 
     return (
-        <FlatList
-            data={drivers}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-                <View style={styles.driverItem}>
-                    <View style={styles.driverDetails}>
-                        <Text>ID: {item.id}</Text>
-                        <Text>Nom: {item.name}</Text>
-                        <Text>Licence: {item.licenseNumber}</Text>
-                        <Text>Téléphone: {item.phoneNumber}</Text>
-                    </View>
-                    <View style={styles.driverActions}>
-                        <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
-                            <Text style={styles.buttonText}>Supprimer</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => handleUpdate(item.id, { name: item.name, licenseNumber: item.licenseNumber, phoneNumber: item.phoneNumber })}
-                        >
-                            <Text style={styles.buttonText}>Mettre à jour</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+        <View>
+            {editingDriver ? (
+                <DriverForm
+                    fetchDrivers={fetchDrivers}
+                    initialDriver={editingDriver}
+                    onClose={closeEditForm}
+                />
+            ) : (
+                <FlatList
+                    data={drivers}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.driverItem}>
+                            <View style={styles.driverDetails}>
+                                <Text>ID: {item.id}</Text>
+                                <Text>Nom: {item.name}</Text>
+                                <Text>Licence: {item.licenseNumber}</Text>
+                                <Text>Téléphone: {item.phoneNumber}</Text>
+                            </View>
+                            <View style={styles.driverActions}>
+                                <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
+                                    <Text style={styles.buttonText}>Supprimer</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={() => handleEdit(item)}>
+                                    <Text style={styles.buttonText}>Mettre à jour</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+                />
             )}
-        />
+        </View>
     );
 };
 

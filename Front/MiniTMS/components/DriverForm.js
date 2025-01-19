@@ -1,16 +1,26 @@
-// src/components/DriverForm.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { addDriver } from '../services/driverService';
+import { addDriver, updateDriver } from '../services/driverService';
 
-const DriverForm = ({ fetchDrivers }) => {
-    const [newDriver, setNewDriver] = useState({ name: '', licenseNumber: '', phoneNumber: '' });
+const DriverForm = ({ fetchDrivers, initialDriver = null, onClose }) => {
+    const [name, setName] = useState(initialDriver ? initialDriver.name : '');
+    const [licenseNumber, setLicenseNumber] = useState(initialDriver ? initialDriver.licenseNumber : '');
+    const [phoneNumber, setPhoneNumber] = useState(initialDriver ? initialDriver.phoneNumber : '');
 
-    const handleAddDriver = async () => {
-        const success = await addDriver(newDriver);
+    const handleSubmit = async () => {
+        const driverData = { name, licenseNumber, phoneNumber };
+        let success;
+        if (initialDriver) {
+            // Mise à jour
+            success = await updateDriver(initialDriver.id, driverData);
+        } else {
+            // Ajout
+            success = await addDriver(driverData);
+        }
+
         if (success) {
-            setNewDriver({ name: '', licenseNumber: '', phoneNumber: '' });
-            fetchDrivers(); // Recharger la liste des conducteurs
+            fetchDrivers(); // Rafraîchir la liste des conducteurs
+            onClose(); // Fermer le formulaire
         }
     };
 
@@ -19,32 +29,37 @@ const DriverForm = ({ fetchDrivers }) => {
             <TextInput
                 style={styles.input}
                 placeholder="Nom"
-                value={newDriver.name}
-                onChangeText={(text) => setNewDriver({ ...newDriver, name: text })}
+                value={name}
+                onChangeText={setName}
             />
             <TextInput
                 style={styles.input}
-                placeholder="Numéro de Licence"
-                value={newDriver.licenseNumber}
-                onChangeText={(text) => setNewDriver({ ...newDriver, licenseNumber: text })}
+                placeholder="Numéro de licence"
+                value={licenseNumber}
+                onChangeText={setLicenseNumber}
             />
             <TextInput
                 style={styles.input}
-                placeholder="Numéro de Téléphone"
-                value={newDriver.phoneNumber}
-                onChangeText={(text) => setNewDriver({ ...newDriver, phoneNumber: text })}
+                placeholder="Numéro de téléphone"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
             />
-            <Button title="Ajouter" onPress={handleAddDriver} />
+            <Button title={initialDriver ? 'Mettre à jour' : 'Ajouter'} onPress={handleSubmit} />
+            {onClose && <Button title="Annuler" color="red" onPress={onClose} />}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     form: {
-        marginBottom: 20,
-        padding: 10,
+        marginVertical: 20,
+        padding: 20,
         backgroundColor: '#fff',
         borderRadius: 8,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 4 },
+        shadowRadius: 5,
     },
     input: {
         height: 40,

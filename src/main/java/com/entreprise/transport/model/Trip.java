@@ -2,10 +2,12 @@ package com.entreprise.transport.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -16,9 +18,12 @@ public class Trip {
 	private int id;
 
 	@ManyToOne
+	@JoinColumn(name = "driver_id")
 	private Driver driver;
 
-	@ManyToOne
+
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Vehicle vehicle;
 
 	private String origin;
