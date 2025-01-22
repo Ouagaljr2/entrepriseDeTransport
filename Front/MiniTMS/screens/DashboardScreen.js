@@ -1,6 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
+import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+
 const DashboardScreen = () => (
     <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Tableau de Bord</Text>

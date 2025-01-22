@@ -10,4 +10,6 @@ import com.entreprise.transport.model.Trip;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
 	List<Trip> findByOriginContainingOrDestinationContaining(String origin, String destination);
+	List<Trip> findByVehicleId(int id);
+	List<Trip> findByDriverId(int id);
 }

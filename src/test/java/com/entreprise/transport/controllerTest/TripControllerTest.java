@@ -44,7 +44,7 @@ public class TripControllerTest {
         Trip trip = new Trip();
         trip.setOrigin("Paris");
         trip.setDestination("Lyon");
-        when(tripService.saveTrip(any())).thenReturn(trip);
+        when(tripService.saveTrip(any(), 0, trip)).thenReturn(trip);
 
         mockMvc.perform(post("/trips")
                 .contentType(MediaType.APPLICATION_JSON)

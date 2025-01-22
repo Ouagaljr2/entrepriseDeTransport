@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { deleteVehicle } from '../services/vehicleService';
-import VehicleForm from './VehicleForm'; // Assurez-vous d'avoir un formulaire de véhicule
+import VehicleForm from './VehicleForm';
 
 const VehicleList = ({ vehicles, fetchVehicles }) => {
     const [editingVehicle, setEditingVehicle] = useState(null);
@@ -12,11 +12,11 @@ const VehicleList = ({ vehicles, fetchVehicles }) => {
     };
 
     const handleEdit = (vehicle) => {
-        setEditingVehicle(vehicle); // Définir le véhicule à modifier
+        setEditingVehicle(vehicle);
     };
 
     const closeEditForm = () => {
-        setEditingVehicle(null); // Fermer le formulaire d'édition
+        setEditingVehicle(null);
     };
 
     return (
@@ -28,13 +28,11 @@ const VehicleList = ({ vehicles, fetchVehicles }) => {
                     onClose={closeEditForm}
                 />
             ) : (
-                <FlatList
-                    data={vehicles}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.vehicleItem}>
+                <View style={styles.listContainer}>
+                    {vehicles.map((item) => (
+                        <View key={item.id} style={styles.vehicleItem}>
                             <View style={styles.vehicleDetails}>
-                                <Text>ID: {item.id}</Text>
+                                <Text style={styles.title}>Véhicule #{item.id}</Text>
                                 <Text>Numéro d'immatriculation: {item.registrationNumber}</Text>
                                 <Text>Modèle: {item.model}</Text>
                                 <Text>Statut: {item.status}</Text>
@@ -48,26 +46,39 @@ const VehicleList = ({ vehicles, fetchVehicles }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )}
-                />
+                    ))}
+                </View>
             )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    vehicleItem: {
+    listContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
         padding: 10,
-        marginBottom: 10,
+    },
+    vehicleItem: {
+        width: '48%', // Ajuster la largeur pour deux éléments par ligne
         backgroundColor: '#fff',
         borderRadius: 8,
+        padding: 15,
+        marginBottom: 10,
         shadowColor: '#000',
         shadowOpacity: 0.1,
         shadowOffset: { width: 0, height: 4 },
         shadowRadius: 5,
+        elevation: 3, // Ajoute une ombre pour Android
     },
     vehicleDetails: {
         marginBottom: 10,
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
     vehicleActions: {
         flexDirection: 'row',

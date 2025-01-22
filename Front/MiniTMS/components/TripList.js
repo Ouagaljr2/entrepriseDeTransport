@@ -28,23 +28,17 @@ const TripList = ({ trips, fetchTrips }) => {
                     onClose={closeEditForm}
                 />
             ) : (
-                <FlatList
-                    data={trips}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.tripItem}>
+                <View style={styles.listContainer}>
+                    {trips.map((item) => (
+                        <View key={item.id} style={styles.tripItem}>
                             <View style={styles.tripDetails}>
-                                <Text>ID: {item.id}</Text>
+                                <Text style={styles.title}>Tarajet #{item.id}</Text>
                                 <Text>Origine: {item.origin}</Text>
                                 <Text>Destination: {item.destination}</Text>
                                 <Text>Distance: {item.distance} km</Text>
                                 <Text>Date: {item.date}</Text>
                                 <Text>Statut: {item.status}</Text>
-
-                                {/* Affichage de l'ID du conducteur */}
                                 <Text>Driver ID: {item.driver ? item.driver.id : 'Non assigné'}</Text>
-
-                                {/* Affichage de l'ID du véhicule */}
                                 <Text>Vehicle ID: {item.vehicle ? item.vehicle.id : 'Non assigné'}</Text>
                             </View>
                             <View style={styles.tripActions}>
@@ -56,15 +50,22 @@ const TripList = ({ trips, fetchTrips }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )}
-                />
+                    ))}
+                </View>
             )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    listContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
     tripItem: {
+        width: '48%', // Deux items par ligne (ajustez si nécessaire)
         padding: 10,
         marginBottom: 10,
         backgroundColor: '#fff',
@@ -90,6 +91,11 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
 });
 

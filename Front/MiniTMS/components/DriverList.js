@@ -12,11 +12,11 @@ const DriverList = ({ drivers, fetchDrivers }) => {
     };
 
     const handleEdit = (driver) => {
-        setEditingDriver(driver); // Définir le conducteur à modifier
+        setEditingDriver(driver);
     };
 
     const closeEditForm = () => {
-        setEditingDriver(null); // Fermer le formulaire d'édition
+        setEditingDriver(null);
     };
 
     return (
@@ -28,16 +28,16 @@ const DriverList = ({ drivers, fetchDrivers }) => {
                     onClose={closeEditForm}
                 />
             ) : (
-                <FlatList
-                    data={drivers}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.driverItem}>
+                <View style={styles.driverListContainer}>
+                    {drivers.map((item) => (
+                        <View key={item.id} style={styles.driverItem}>
                             <View style={styles.driverDetails}>
-                                <Text>ID: {item.id}</Text>
+                                <Text style={styles.title}>Conducteur #{item.id}</Text>
                                 <Text>Nom: {item.name}</Text>
                                 <Text>Licence: {item.licenseNumber}</Text>
                                 <Text>Téléphone: {item.phoneNumber}</Text>
+                                <Text>Email: {item.email}</Text>
+                                <Text>Statut: {item.status}</Text>
                             </View>
                             <View style={styles.driverActions}>
                                 <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
@@ -48,15 +48,21 @@ const DriverList = ({ drivers, fetchDrivers }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )}
-                />
+                    ))}
+                </View>
             )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    driverListContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
     driverItem: {
+        width: '48%', // Ajustez la largeur pour que deux éléments tiennent sur une ligne
         padding: 10,
         marginBottom: 10,
         backgroundColor: '#fff',
@@ -82,6 +88,11 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
 });
 

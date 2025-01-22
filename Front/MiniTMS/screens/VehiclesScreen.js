@@ -3,6 +3,8 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import VehicleForm from '../components/VehicleForm';
 import VehicleList from '../components/VehicleList';
 import { fetchVehicles, searchVehicles } from '../services/vehicleService';
+import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+
 
 const VehiclesScreen = () => {
     const [vehicles, setVehicles] = useState([]);
@@ -26,7 +28,7 @@ const VehiclesScreen = () => {
     useEffect(() => {
         fetchVehicleList();
     }, []);
-
+    useRefreshData(fetchVehicleList);
     return (
         <View style={styles.container}>
             {showForm ? (

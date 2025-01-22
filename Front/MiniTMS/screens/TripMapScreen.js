@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Button, ScrollView, Text } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import { fetchTrips } from '../services/tripService'; // À définir pour récupérer les trajets
+import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
 
 import { Platform } from 'react-native';
 

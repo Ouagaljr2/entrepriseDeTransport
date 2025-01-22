@@ -30,8 +30,9 @@ public class TripController {
 	}
 
 	@PostMapping
-	public Trip createTrip(@RequestBody Trip trip) {
-		return tripService.saveTrip(trip);
+	public Trip createTrip(@RequestParam int driverId, @RequestParam int vehicleId, @RequestBody Trip trip) {
+		System.out.println("Creating trip: " + trip.toString());
+		return tripService.saveTrip(driverId, vehicleId, trip);
 	}
 
 	@PutMapping("/{id}")

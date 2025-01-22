@@ -3,6 +3,7 @@
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/stack": "^7.1.1",
     "axios": "^1.7.9",
+    "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^2.22.0",
     "react-native-paper": "^5.13.1",
     "react-native-reanimated": "^3.16.6",

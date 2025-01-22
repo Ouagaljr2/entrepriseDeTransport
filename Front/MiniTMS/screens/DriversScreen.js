@@ -3,6 +3,8 @@ import { ScrollView, View, TextInput, Button, StyleSheet, Image } from 'react-na
 import DriverForm from '../components/DriverForm';
 import DriverList from '../components/DriverList';
 import { fetchDrivers, searchDrivers } from '../services/driverService';
+import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+
 
 const DriversScreen = () => {
     const [drivers, setDrivers] = useState([]);
@@ -30,6 +32,7 @@ const DriversScreen = () => {
         fetchDriverList();
     }, []);
 
+    useRefreshData(fetchDriverList);
     return (
         <View style={styles.container}>
             {/* Image en haut de l'écran */}

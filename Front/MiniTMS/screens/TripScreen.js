@@ -3,6 +3,8 @@ import { View, Button, TextInput, Picker, FlatList, StyleSheet } from 'react-nat
 import { fetchTrips } from '../services/tripService';
 import TripForm from '../components/TripForm';
 import TripList from '../components/TripList';
+import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+
 
 const TripScreen = () => {
     const [trips, setTrips] = useState([]);
@@ -35,7 +37,7 @@ const TripScreen = () => {
     useEffect(() => {
         loadTrips();
     }, []);
-
+    useRefreshData(loadTrips);
     return (
         <View style={styles.container}>
             {/* Picker pour choisir entre origine ou destination */}

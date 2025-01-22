@@ -17,13 +17,12 @@ public class Trip {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	// Relation avec Driver, seulement l'ID est nécessaire
 	@ManyToOne
-	@JoinColumn(name = "driver_id")
 	private Driver driver;
 
-
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	// Relation avec Vehicle, seulement l'ID est nécessaire
+	@ManyToOne
 	private Vehicle vehicle;
 
 	private String origin;

@@ -42,7 +42,7 @@ public class TripServiceTest {
     public void testSaveTrip() {
         Trip trip = new Trip();
         when(tripRepository.save(trip)).thenReturn(trip);
-        assertNotNull(tripService.saveTrip(trip));
+        assertNotNull(tripService.saveTrip(0, 0, trip));
     }
 
     @Test

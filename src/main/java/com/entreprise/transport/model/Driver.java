@@ -19,11 +19,31 @@ public class Driver implements Serializable {
 	private String name;
 	private String licenseNumber;
 	private String phoneNumber;
+	private String email;
+	private String status;
 
 
 	// Constructor(s)
 	public Driver() {
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 	// Getters and Setters
 	public int getId() {
