@@ -12,6 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/data.sql  # Ajout du script SQL
     networks:
       - tms_network
 

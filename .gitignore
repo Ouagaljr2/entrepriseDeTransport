@@ -71,3 +71,5 @@ Front/MiniTMS/.env*.local
 
 # typescript
 Front/MiniTMS/*.tsbuildinfo
+node_modules
+node_modules

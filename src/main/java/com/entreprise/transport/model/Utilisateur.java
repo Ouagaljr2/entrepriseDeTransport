@@ -2,6 +2,7 @@ package com.entreprise.transport.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,14 +17,16 @@ public class Utilisateur {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(nullable = false, unique = true) // Assure l'unicité
 	private String username;
+
+	@Column(nullable = false)
 	private String password;
+	private String role;
+
 	
 	public Utilisateur() {
 	}
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> roles;
 
 	public int getId() {
 		return id;
@@ -49,16 +52,14 @@ public class Utilisateur {
 		this.password = password;
 	}
 
-	public List<String> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-
-	// Getters and Setters
-	// Constructor(s)
-	// toString()
+	public void setRole(String role) {
+		this.role = role;
+	}// Getters and Setters
+		// Constructor(s)
+		// toString()
 
 }

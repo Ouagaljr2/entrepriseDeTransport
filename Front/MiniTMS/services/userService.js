@@ -6,6 +6,12 @@ export const createUser = async (user) => {
         const response = await api.post('/users/register', user);
         return response.data; // Retourner l'utilisateur créé
     } catch (error) {
+        if (error.response && error.response.status === 400) {
+            // Vérification du code d'erreur 400 (Bad Request) qui signifie que le username existe déjà
+            console.error('Erreur lors de la création de l\'utilisateur :', error.response.data);
+            // Vous pouvez ici retourner un message d'erreur spécifique au frontend
+            return { error: error.response.data };  // Par exemple, retournez l'erreur sous forme d'objet
+        }
         console.error('Error creating user:', error);
         return null;
     }
