@@ -4,6 +4,7 @@ import DriverForm from '../components/DriverForm';
 import DriverList from '../components/DriverList';
 import { fetchDrivers, searchDrivers } from '../services/driverService';
 import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+import { isAuthenticated } from '../services/userService';
 
 
 const DriversScreen = () => {
@@ -29,10 +30,10 @@ const DriversScreen = () => {
     const closeForm = () => setFormVisible(false);
 
     useEffect(() => {
-        fetchDriverList();
+        if (isAuthenticated) fetchDriverList();
     }, []);
 
-    useRefreshData(fetchDriverList);
+    if (isAuthenticated) useRefreshData(fetchDriverList);
     return (
         <View style={styles.container}>
             {/* Image en haut de l'écran */}

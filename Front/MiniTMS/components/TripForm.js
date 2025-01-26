@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Picker, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { Picker } from '@react-native-picker/picker'; // Nouvelle importation
 import { addTrip, updateTrip } from '../services/tripService';
 import { fetchDrivers } from '../services/driverService';
 import { fetchVehicles } from '../services/vehicleService';

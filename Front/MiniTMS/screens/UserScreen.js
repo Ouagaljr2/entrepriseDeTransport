@@ -17,10 +17,12 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             setError('');
-            if (isAuthenticated()) {
+            if (await isAuthenticated()) { // Attendre la réponse de isAuthenticated
+                console.log('User is authenticated dans le useEffect de UserScreen');
                 const userInfo = await getUserInfo();
                 setUser(userInfo);
             } else {
+                console.log('User is not authenticated dans le useEffect de UserScreen');
                 setUser(null);
             }
             setLoading(false);
@@ -28,6 +30,7 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
 
         fetchUserInfo();
     }, []);
+
 
     const handleLogout = () => {
         logoutUser();

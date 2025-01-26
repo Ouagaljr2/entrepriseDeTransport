@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, TextInput, Picker, FlatList, StyleSheet } from 'react-native';
+import { View, Button, TextInput, FlatList, StyleSheet } from 'react-native';
 import { fetchTrips } from '../services/tripService';
 import TripForm from '../components/TripForm';
 import TripList from '../components/TripList';
 import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
-
+import { Picker } from '@react-native-picker/picker'; // Mise à jour de l'importation
+import { isAuthenticated } from '../services/userService';
 
 const TripScreen = () => {
     const [trips, setTrips] = useState([]);
@@ -35,9 +36,10 @@ const TripScreen = () => {
     };
 
     useEffect(() => {
-        loadTrips();
+        if (isAuthenticated) loadTrips();
     }, []);
-    useRefreshData(loadTrips);
+    if (isAuthenticated) useRefreshData(loadTrips);
+
     return (
         <View style={styles.container}>
             {/* Picker pour choisir entre origine ou destination */}

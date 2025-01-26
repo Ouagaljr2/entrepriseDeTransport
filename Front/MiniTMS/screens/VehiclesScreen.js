@@ -4,6 +4,7 @@ import VehicleForm from '../components/VehicleForm';
 import VehicleList from '../components/VehicleList';
 import { fetchVehicles, searchVehicles } from '../services/vehicleService';
 import useRefreshData from '../components/useRefreshData'; // Import du hook personnalisé
+import { isAuthenticated } from '../services/userService';
 
 
 const VehiclesScreen = () => {
@@ -26,9 +27,9 @@ const VehiclesScreen = () => {
     };
 
     useEffect(() => {
-        fetchVehicleList();
+        if (isAuthenticated) fetchVehicleList();
     }, []);
-    useRefreshData(fetchVehicleList);
+    if (isAuthenticated) useRefreshData(fetchVehicleList);
     return (
         <View style={styles.container}>
             {showForm ? (

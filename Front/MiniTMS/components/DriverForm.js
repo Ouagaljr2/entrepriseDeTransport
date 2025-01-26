@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, Dimensions } from 'react-native';
 import { addDriver, updateDriver } from '../services/driverService';
+
+const { width } = Dimensions.get('window');
 
 const DriverForm = ({ fetchDrivers, initialDriver = null, onClose }) => {
     const [name, setName] = useState(initialDriver ? initialDriver.name : '');
@@ -13,21 +15,19 @@ const DriverForm = ({ fetchDrivers, initialDriver = null, onClose }) => {
         const driverData = { name, licenseNumber, phoneNumber, email, status };
         let success;
         if (initialDriver) {
-            // Mise à jour
             success = await updateDriver(initialDriver.id, driverData);
         } else {
-            // Ajout
             success = await addDriver(driverData);
         }
 
         if (success) {
-            fetchDrivers(); // Rafraîchir la liste des conducteurs
-            onClose(); // Fermer le formulaire
+            fetchDrivers();
+            onClose();
         }
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.overlay}>
             <View style={styles.form}>
                 <Text style={styles.title}>{initialDriver ? 'Modifier Conducteur' : 'Ajouter Conducteur'}</Text>
                 <TextInput
@@ -63,11 +63,16 @@ const DriverForm = ({ fetchDrivers, initialDriver = null, onClose }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0', // Couleur de fond pour mieux distinguer la boîte
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 10,
     },
     form: {
         width: '90%',
@@ -76,10 +81,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 10,
         shadowColor: '#000',
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 4 },
         shadowRadius: 5,
-        elevation: 5, // Pour un effet de relief supplémentaire sur Android
+        elevation: 5,
     },
     title: {
         fontSize: 18,
@@ -99,8 +104,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         color: '#555',
         textAlign: 'center',
-        fontSize: 16,
     },
 });
-
 export default DriverForm;

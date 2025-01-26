@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { deleteTrip } from '../services/tripService';
 import TripForm from './TripForm';
+
+const { width } = Dimensions.get('window');
+const isSmallScreen = width < 360;
 
 const TripList = ({ trips, fetchTrips }) => {
     const [editingTrip, setEditingTrip] = useState(null);
@@ -19,8 +22,13 @@ const TripList = ({ trips, fetchTrips }) => {
         setEditingTrip(null);
     };
 
+    // Vérification que 'trips' est un tableau
+    if (!Array.isArray(trips)) {
+        return <Text>Aucun trajet disponible.</Text>;
+    }
+
     return (
-        <View>
+        <ScrollView style={styles.scrollView}>
             {editingTrip ? (
                 <TripForm
                     fetchTrips={fetchTrips}
@@ -32,7 +40,7 @@ const TripList = ({ trips, fetchTrips }) => {
                     {trips.map((item) => (
                         <View key={item.id} style={styles.tripItem}>
                             <View style={styles.tripDetails}>
-                                <Text style={styles.title}>Tarajet #{item.id}</Text>
+                                <Text style={styles.title}>Trajet #{item.id}</Text>
                                 <Text>Origine: {item.origin}</Text>
                                 <Text>Destination: {item.destination}</Text>
                                 <Text>Distance: {item.distance} km</Text>
@@ -53,30 +61,33 @@ const TripList = ({ trips, fetchTrips }) => {
                     ))}
                 </View>
             )}
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
     listContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
         padding: 10,
     },
     tripItem: {
-        width: '48%', // Deux items par ligne (ajustez si nécessaire)
-        padding: 10,
-        marginBottom: 10,
+        width: isSmallScreen ? '100%' : '100%',
+
         backgroundColor: '#fff',
-        borderRadius: 8,
+        marginBottom: 10,
+        padding: 15,
+        borderRadius: 10,
+        elevation: 3,
         shadowColor: '#000',
         shadowOpacity: 0.1,
         shadowOffset: { width: 0, height: 4 },
         shadowRadius: 5,
     },
     tripDetails: {
-        marginBottom: 10,
+        marginBottom: 15,
     },
     tripActions: {
         flexDirection: 'row',
@@ -86,14 +97,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#007BFF',
         padding: 10,
         borderRadius: 5,
-        marginHorizontal: 5,
+        width: '48%',
     },
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
+        textAlign: 'center',
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
     },

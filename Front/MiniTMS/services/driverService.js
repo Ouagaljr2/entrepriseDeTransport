@@ -3,9 +3,15 @@ import api from './api'; // Importer l'instance Axios
 export const fetchDrivers = async () => {
     try {
         const response = await api.get('/drivers');
-        return response.data;
+        // Vérifiez que la réponse contient un tableau
+        if (Array.isArray(response.data)) {
+            return response.data;
+        } else {
+            console.error('La réponse n\'est pas un tableau');
+            return [];
+        }
     } catch (error) {
-        console.error('Error fetching drivers:', error);
+        console.error('Erreur lors de la récupération des conducteurs:', error);
         return [];
     }
 };
@@ -15,7 +21,7 @@ export const searchDrivers = async (name) => {
         const response = await api.get(`/drivers/search?name=${name}`);
         return response.data;
     } catch (error) {
-        console.error('Error searching drivers:', error);
+        console.error('Erreur lors de la recherche des conducteurs:', error);
         return [];
     }
 };
@@ -25,7 +31,7 @@ export const addDriver = async (driver) => {
         const response = await api.post('/drivers', driver);
         return response.status === 200;
     } catch (error) {
-        console.error('Error adding driver:', error);
+        console.error('Erreur lors de l\'ajout d\'un conducteur:', error);
         return false;
     }
 };
@@ -35,7 +41,7 @@ export const updateDriver = async (id, driver) => {
         const response = await api.put(`/drivers/${id}`, driver);
         return response.status === 200;
     } catch (error) {
-        console.error('Error updating driver:', error);
+        console.error('Erreur lors de la mise à jour d\'un conducteur:', error);
         return false;
     }
 };
@@ -45,7 +51,7 @@ export const deleteDriver = async (id) => {
         const response = await api.delete(`/drivers/${id}`);
         return response.status === 200;
     } catch (error) {
-        console.error('Error deleting driver:', error);
+        console.error('Erreur lors de la suppression d\'un conducteur:', error);
         return false;
     }
 };

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { deleteDriver } from '../services/driverService';
 import DriverForm from './DriverForm';
+
+const { width } = Dimensions.get('window');
+const isSmallScreen = width < 360;
 
 const DriverList = ({ drivers, fetchDrivers }) => {
     const [editingDriver, setEditingDriver] = useState(null);
@@ -20,7 +23,7 @@ const DriverList = ({ drivers, fetchDrivers }) => {
     };
 
     return (
-        <View>
+        <ScrollView contentContainerStyle={styles.scrollView}>
             {editingDriver ? (
                 <DriverForm
                     fetchDrivers={fetchDrivers}
@@ -28,7 +31,7 @@ const DriverList = ({ drivers, fetchDrivers }) => {
                     onClose={closeEditForm}
                 />
             ) : (
-                <View style={styles.driverListContainer}>
+                <View style={styles.listContainer}>
                     {drivers.map((item) => (
                         <View key={item.id} style={styles.driverItem}>
                             <View style={styles.driverDetails}>
@@ -51,29 +54,39 @@ const DriverList = ({ drivers, fetchDrivers }) => {
                     ))}
                 </View>
             )}
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    driverListContainer: {
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
+    listContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
+        padding: 10,
     },
     driverItem: {
-        width: '48%', // Ajustez la largeur pour que deux éléments tiennent sur une ligne
-        padding: 10,
-        marginBottom: 10,
+        width: isSmallScreen ? '100%' : '150%',
+        padding: 15,
         backgroundColor: '#fff',
-        borderRadius: 8,
         shadowColor: '#000',
         shadowOpacity: 0.1,
         shadowOffset: { width: 0, height: 4 },
         shadowRadius: 5,
+        elevation: 3,
+
+        borderRadius: 8,
+        maxWidth: 350, // Limiter la largeur maximale
+        marginBottom: 20,
+        alignItems: 'center',
     },
+
     driverDetails: {
-        marginBottom: 10,
+        marginBottom: 15,
     },
     driverActions: {
         flexDirection: 'row',
@@ -95,5 +108,4 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
-
 export default DriverList;

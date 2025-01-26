@@ -4,7 +4,7 @@ import { addVehicle, updateVehicle } from '../services/vehicleService';
 
 const VehicleForm = ({ fetchVehicles, initialVehicle = null, onClose }) => {
     const [registrationNumber, setRegistrationNumber] = useState(initialVehicle ? initialVehicle.registrationNumber : '');
-    const [status] = useState('Disponible'); // Statut fixe, non modifiable
+    const [status] = useState('Disponible'); // Statut fixe
     const [model, setModel] = useState(initialVehicle ? initialVehicle.model : '');
     const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ const VehicleForm = ({ fetchVehicles, initialVehicle = null, onClose }) => {
         let success;
         setLoading(true);
         if (initialVehicle) {
-            // Mise à jour du véhicule existant
+            // Mise à jour du véhicule
             success = await updateVehicle(initialVehicle.id, vehicleData);
         } else {
             // Ajout d'un nouveau véhicule
@@ -28,70 +28,50 @@ const VehicleForm = ({ fetchVehicles, initialVehicle = null, onClose }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.form}>
-                <Text style={styles.title}>{initialVehicle ? 'Modifier Véhicule' : 'Ajouter Véhicule'}</Text>
-                {initialVehicle && (
-                    <View style={styles.idContainer}>
-                        <Text style={styles.label}>ID: {initialVehicle.id}</Text>
-                    </View>
-                )}
-                <TextInput
-                    style={styles.input}
-                    placeholder="Numéro d'immatriculation"
-                    value={registrationNumber}
-                    onChangeText={setRegistrationNumber}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Modèle"
-                    value={model}
-                    onChangeText={setModel}
-                />
-                {/* Affichage du statut, mais non modifiable */}
-                <Text style={styles.statusText}>Statut: {status}</Text>
+        <View style={styles.formContainer}>
+            <Text style={styles.formTitle}>{initialVehicle ? 'Modifier Véhicule' : 'Ajouter Véhicule'}</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Numéro d'immatriculation"
+                value={registrationNumber}
+                onChangeText={setRegistrationNumber}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Modèle"
+                value={model}
+                onChangeText={setModel}
+            />
+            {/* Affichage du statut, non modifiable */}
+            <Text style={styles.statusText}>Statut: {status}</Text>
 
-                <Button
-                    title={loading ? 'Chargement...' : (initialVehicle ? 'Mettre à jour' : 'Ajouter')}
-                    onPress={handleSubmit}
-                    disabled={loading}
-                />
-                {onClose && <Button title="Annuler" color="red" onPress={onClose} />}
-            </View>
+            <Button
+                title={loading ? 'Chargement...' : (initialVehicle ? 'Mettre à jour' : 'Ajouter')}
+                onPress={handleSubmit}
+                disabled={loading}
+            />
+            <Button title="Annuler" color="red" onPress={onClose} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f0f0f0', // Couleur de fond pour mettre en valeur la boîte
-    },
-    form: {
-        width: '90%',
-        maxWidth: 400,
+    formContainer: {
         padding: 20,
         backgroundColor: '#fff',
-        borderRadius: 10,
+        borderRadius: 8,
         shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 4 },
-        shadowRadius: 5,
-        elevation: 5, // Effet de relief supplémentaire pour Android
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+        maxWidth: 400,
+        margin: 20,
     },
-    title: {
+    formTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-    idContainer: {
         marginBottom: 10,
-    },
-    label: {
-        fontWeight: 'bold',
+        textAlign: 'center',
     },
     input: {
         height: 40,
@@ -104,11 +84,8 @@ const styles = StyleSheet.create({
     statusText: {
         marginBottom: 15,
         color: '#555',
-        textAlign: 'center',
         fontSize: 16,
-        backgroundColor: '#f4f4f4',
-        padding: 10,
-        borderRadius: 5,
+        textAlign: 'center',
     },
 });
 
