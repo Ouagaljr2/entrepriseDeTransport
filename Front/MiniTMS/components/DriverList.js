@@ -59,15 +59,12 @@ const DriverList = ({ drivers, fetchDrivers }) => {
 };
 
 const styles = StyleSheet.create({
-    scrollView: {
-        flex: 1,
-        backgroundColor: '#f9f9f9',
-    },
+
     listContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        padding: 10,
+        justifyContent: 'space-around',
+        padding: 20,
     },
     driverItem: {
         width: isSmallScreen ? '100%' : '150%',
@@ -78,7 +75,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowRadius: 5,
         elevation: 3,
-
         borderRadius: 8,
         maxWidth: 350, // Limiter la largeur maximale
         marginBottom: 20,

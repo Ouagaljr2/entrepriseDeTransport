@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     listContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',  // Centrer les éléments
+        justifyContent: 'space-around',  // Centrer les éléments
+        padding: 20,
     },
     vehicleItem: {
         width: isSmallScreen ? '100%' : '100%',

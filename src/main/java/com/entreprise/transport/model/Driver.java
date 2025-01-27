@@ -1,6 +1,7 @@
 package com.entreprise.transport.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -77,4 +78,25 @@ public class Driver implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, id, licenseNumber, name, phoneNumber, status);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Driver)) {
+			return false;
+		}
+		Driver other = (Driver) obj;
+		return Objects.equals(email, other.email) && id == other.id
+				&& Objects.equals(licenseNumber, other.licenseNumber) && Objects.equals(name, other.name)
+				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(status, other.status);
+	}
+	
+	
 }

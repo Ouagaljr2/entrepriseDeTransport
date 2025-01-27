@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import { Picker } from '@react-native-picker/picker'; // Nouvelle importation
 import { addTrip, updateTrip } from '../services/tripService';
 import { fetchDrivers } from '../services/driverService';
 import { fetchVehicles } from '../services/vehicleService';
+import { Picker } from '@react-native-picker/picker';
 
 const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
     const cities = [
@@ -13,7 +13,6 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
 
     const [origin, setOrigin] = useState(initialTrip ? initialTrip.origin : '');
     const [destination, setDestination] = useState(initialTrip ? initialTrip.destination : '');
-    const [distance, setDistance] = useState(initialTrip ? initialTrip.distance.toString() : '');
     const [date, setDate] = useState(initialTrip ? initialTrip.date : new Date().toISOString().split('T')[0]);
     const [status, setStatus] = useState(initialTrip ? initialTrip.status : 'attribué');
     const [driver, setDriver] = useState(initialTrip ? initialTrip.driver.id : '');
@@ -21,6 +20,7 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
     const [drivers, setDrivers] = useState([]);
     const [vehicles, setVehicles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         const loadData = async () => {
@@ -32,7 +32,7 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
                 setDrivers(driverData.filter(d => d.status && d.status.toLowerCase() === 'disponible'));
                 setVehicles(vehicleData.filter(v => v.status && v.status.toLowerCase() === 'disponible'));
             } catch (error) {
-                alert('Erreur lors du chargement des données : ' + error.message);
+                setErrorMessage('Erreur lors du chargement des données : ' + error.message);
             } finally {
                 setLoading(false);
             }
@@ -41,19 +41,18 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
     }, []);
 
     const handleSubmit = async () => {
-        if (!origin || !destination || !distance || !driver || !vehicle) {
-            alert('Veuillez remplir tous les champs obligatoires.');
+        if (!origin || !destination || !driver || !vehicle) {
+            setErrorMessage('Veuillez remplir tous les champs obligatoires.');
             return;
         }
         if (origin === destination) {
-            alert("L'origine et la destination doivent être différentes.");
+            setErrorMessage("L'origine et la destination doivent être différentes.");
             return;
         }
 
         const tripData = {
             origin,
             destination,
-            distance: parseFloat(distance),
             date,
             status,
             driver: { id: driver },
@@ -72,10 +71,10 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
                 fetchTrips();
                 onClose();
             } else {
-                alert('Une erreur est survenue lors de la soumission.');
+                setErrorMessage('Une erreur est survenue lors de la soumission.');
             }
         } catch (error) {
-            alert('Erreur : ' + error.message);
+            setErrorMessage('Erreur : ' + error.message);
         }
     };
 
@@ -86,6 +85,8 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
     return (
         <View style={styles.container}>
             <View style={styles.form}>
+                {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+
                 <Picker
                     selectedValue={origin}
                     onValueChange={(value) => setOrigin(value)}
@@ -96,6 +97,7 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
                         <Picker.Item key={city} label={city} value={city} />
                     ))}
                 </Picker>
+
                 <Picker
                     selectedValue={destination}
                     onValueChange={(value) => setDestination(value)}
@@ -106,13 +108,7 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
                         <Picker.Item key={city} label={city} value={city} />
                     ))}
                 </Picker>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Distance"
-                    value={distance}
-                    onChangeText={setDistance}
-                    keyboardType="numeric"
-                />
+
                 <TextInput
                     style={[styles.input, styles.dateInput]}
                     placeholder="Sélectionnez une date"
@@ -120,26 +116,37 @@ const TripForm = ({ fetchTrips, initialTrip = null, onClose }) => {
                     onChangeText={setDate}
                     keyboardType="default"
                 />
-                <Picker
-                    selectedValue={driver}
-                    onValueChange={setDriver}
-                    style={styles.input}
-                >
-                    <Picker.Item label="Sélectionnez un conducteur" value="" />
-                    {drivers.map((d) => (
-                        <Picker.Item key={d.id} label={d.name} value={d.id} />
-                    ))}
-                </Picker>
-                <Picker
-                    selectedValue={vehicle}
-                    onValueChange={setVehicle}
-                    style={styles.input}
-                >
-                    <Picker.Item label="Sélectionnez un véhicule" value="" />
-                    {vehicles.map((v) => (
-                        <Picker.Item key={v.id} label={v.registrationNumber} value={v.id} />
-                    ))}
-                </Picker>
+
+                {initialTrip ? (
+                    <>
+                        <Text style={styles.input}>Conducteur : {driver}</Text>
+                        <Text style={styles.input}>Véhicule : {vehicle}</Text>
+                    </>
+                ) : (
+                    <>
+                        <Picker
+                            selectedValue={driver}
+                            onValueChange={setDriver}
+                            style={styles.input}
+                        >
+                            <Picker.Item label="Sélectionnez un conducteur" value="" />
+                            {drivers.map((d) => (
+                                <Picker.Item key={d.id} label={d.name} value={d.id} />
+                            ))}
+                        </Picker>
+                        <Picker
+                            selectedValue={vehicle}
+                            onValueChange={setVehicle}
+                            style={styles.input}
+                        >
+                            <Picker.Item label="Sélectionnez un véhicule" value="" />
+                            {vehicles.map((v) => (
+                                <Picker.Item key={v.id} label={v.registrationNumber} value={v.id} />
+                            ))}
+                        </Picker>
+                    </>
+                )}
+
                 <Button title={initialTrip ? 'Mettre à jour' : 'Ajouter'} onPress={handleSubmit} />
                 {onClose && <Button title="Annuler" color="red" onPress={onClose} />}
             </View>
@@ -165,7 +172,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
     },
     input: {
-        height: 40,
+        height: 50,
         borderColor: '#ccc',
         borderWidth: 1,
         marginBottom: 10,
@@ -181,6 +188,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 20,
         fontSize: 16,
+    },
+    errorText: {
+        color: 'red',
+        marginBottom: 10,
+        textAlign: 'center',
     },
 });
 

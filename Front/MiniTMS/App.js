@@ -20,7 +20,6 @@ const App = () => {
 
   useEffect(() => {
     // Vérifie si l'utilisateur est authentifié au démarrage
-    setIsLoggedIn(isAuthenticated());
   }, []);
 
   return (

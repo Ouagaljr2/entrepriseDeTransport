@@ -33,7 +33,6 @@ const DriversScreen = () => {
         if (isAuthenticated) fetchDriverList();
     }, []);
 
-    if (isAuthenticated) useRefreshData(fetchDriverList);
     return (
         <View style={styles.container}>
             {/* Image en haut de l'écran */}

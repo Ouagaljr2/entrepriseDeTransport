@@ -1,6 +1,7 @@
 package com.entreprise.transport.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -97,6 +98,28 @@ public class Trip {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, destination, distance, driver, id, origin, status, vehicle);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Trip)) {
+			return false;
+		}
+		Trip other = (Trip) obj;
+		return Objects.equals(date, other.date) && Objects.equals(destination, other.destination)
+				&& Double.doubleToLongBits(distance) == Double.doubleToLongBits(other.distance)
+				&& Objects.equals(driver, other.driver) && id == other.id && Objects.equals(origin, other.origin)
+				&& Objects.equals(status, other.status) && Objects.equals(vehicle, other.vehicle);
+	}
+	
+	
 
 	// Getters and Setters
 	// Constructor(s)

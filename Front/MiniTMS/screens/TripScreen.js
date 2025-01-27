@@ -38,7 +38,6 @@ const TripScreen = () => {
     useEffect(() => {
         if (isAuthenticated) loadTrips();
     }, []);
-    if (isAuthenticated) useRefreshData(loadTrips);
 
     return (
         <View style={styles.container}>
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     picker: {
-        height: 40,
+        height: 60,
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 5,

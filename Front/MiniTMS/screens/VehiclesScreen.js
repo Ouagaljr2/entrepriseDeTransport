@@ -22,6 +22,7 @@ const VehiclesScreen = () => {
             fetchVehicleList();
         } else {
             const data = await searchVehicles(searchQuery);
+            console.log(data);
             setVehicles(data);
         }
     };
@@ -29,7 +30,6 @@ const VehiclesScreen = () => {
     useEffect(() => {
         if (isAuthenticated) fetchVehicleList();
     }, []);
-    if (isAuthenticated) useRefreshData(fetchVehicleList);
     return (
         <View style={styles.container}>
             {showForm ? (

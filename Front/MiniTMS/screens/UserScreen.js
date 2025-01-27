@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { getUserInfo, logoutUser, isAuthenticated } from '../services/userService';
 import UserForm from '../components/UserForm';
 import { createUser } from '../services/userService';
@@ -13,16 +13,13 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
     const [role, setRole] = useState('');
     const [error, setError] = useState('');
 
-
     useEffect(() => {
         const fetchUserInfo = async () => {
             setError('');
-            if (await isAuthenticated()) { // Attendre la réponse de isAuthenticated
-                console.log('User is authenticated dans le useEffect de UserScreen');
+            if (await isAuthenticated()) {
                 const userInfo = await getUserInfo();
                 setUser(userInfo);
             } else {
-                console.log('User is not authenticated dans le useEffect de UserScreen');
                 setUser(null);
             }
             setLoading(false);
@@ -30,7 +27,6 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
 
         fetchUserInfo();
     }, []);
-
 
     const handleLogout = () => {
         logoutUser();
@@ -52,14 +48,11 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
         const user = { username: newUsername, password: newPassword, role };
         const createdUser = await createUser(user);
         if (createdUser) {
-            Alert.alert('Utilisateur créé avec succès');
+            Alert.alert('Succès', 'Utilisateur créé avec succès');
             setShowCreateUser(false);
             setNewUsername('');
             setNewPassword('');
             setRole('');
-            if (createdUser.error) {
-                setError(true);
-            }
         } else {
             Alert.alert('Erreur', 'La création de l\'utilisateur a échoué');
         }
@@ -67,8 +60,9 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
 
     if (loading) {
         return (
-            <View style={styles.container}>
-                <Text>Chargement...</Text>
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#6200ea" />
+                <Text style={styles.loadingText}>Chargement...</Text>
             </View>
         );
     }
@@ -79,11 +73,13 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
                 <>
                     <Text style={styles.title}>Bienvenue, {user.username}!</Text>
                     <Text style={styles.infoText}>Nom d'utilisateur: {user.username}</Text>
-                    <Text style={styles.infoText}>Roles de l'utilisateur: {user.role}</Text>
+                    <Text style={styles.infoText}>Rôle: {user.role}</Text>
 
                     {user.role === 'Admin' && (
                         <>
-                            <Button title="Ajouter un utilisateur" onPress={toggleCreateUserForm} />
+                            <TouchableOpacity style={styles.primaryButton} onPress={toggleCreateUserForm}>
+                                <Text style={styles.buttonText}>Ajouter un utilisateur</Text>
+                            </TouchableOpacity>
                             <Modal
                                 visible={showCreateUser}
                                 transparent={true}
@@ -108,7 +104,7 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
                                         />
                                         <TextInput
                                             style={styles.input}
-                                            placeholder="Role"
+                                            placeholder="Rôle"
                                             value={role}
                                             onChangeText={setRole}
                                         />
@@ -125,15 +121,15 @@ const UserScreen = ({ onLoginSuccess, onLogout }) => {
                                             >
                                                 <Text style={styles.buttonText}>Créer</Text>
                                             </TouchableOpacity>
-                                            {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
                                         </View>
                                     </View>
                                 </View>
                             </Modal>
                         </>
                     )}
-                    <Button title="Se déconnecter" onPress={handleLogout} />
+                    <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                        <Text style={styles.buttonText}>Se déconnecter</Text>
+                    </TouchableOpacity>
                 </>
             ) : (
                 <UserForm onLoginSuccess={handleLoginSuccess} />
@@ -150,18 +146,44 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         padding: 20,
     },
-    title: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 18,
         color: '#333',
     },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#6200ea',
+    },
     infoText: {
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 10,
-        textAlign: 'center',
         color: '#555',
+    },
+    primaryButton: {
+        backgroundColor: '#6200ea',
+        padding: 15,
+        borderRadius: 8,
+        marginVertical: 10,
+    },
+    logoutButton: {
+        backgroundColor: '#d32f2f',
+        padding: 15,
+        borderRadius: 8,
+        marginVertical: 10,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center',
     },
     modalOverlay: {
         flex: 1,
@@ -170,7 +192,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '80%',
+        width: '90%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
@@ -180,7 +202,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
-        textAlign: 'center',
     },
     input: {
         width: '100%',
@@ -196,7 +217,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     cancelButton: {
-        backgroundColor: '#ff4d4d',
+        backgroundColor: '#d32f2f',
         padding: 10,
         borderRadius: 5,
         flex: 1,
@@ -211,15 +232,6 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         alignItems: 'center',
     },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    errorText: {
-        color: 'red',
-        marginBottom: 15,
-    },
-
 });
 
 export default UserScreen;

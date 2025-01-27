@@ -32,6 +32,7 @@ export const addTrip = async (trip, driverId, vehicleId) => {
 };
 
 export const updateTrip = async (id, trip) => {
+    console.log('Update trip:', trip);
     try {
         const response = await api.put(`/trips/${id}`, trip);
         return response.status === 200;
