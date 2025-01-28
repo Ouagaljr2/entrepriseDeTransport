@@ -36,11 +36,11 @@ jobs:
           distribution: 'temurin'
 
       - name: Build backend
-        working-directory: backend
+        working-directory: .
         run: mvn clean install
 
       - name: Run backend tests
-        working-directory: backend
+        working-directory: Front
         run: mvn test
 
       - name: Build frontend
