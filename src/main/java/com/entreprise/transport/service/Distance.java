@@ -1,5 +1,6 @@
 package com.entreprise.transport.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,7 +14,9 @@ import okhttp3.Response;
 public class Distance {
 
 	private static final String ORS_API_URL = "https://api.openrouteservice.org/v2/directions/driving-car";
-	private static final String API_KEY = "5b3ce3597851110001cf62481d5515c46ba945418d742e781b7ac42f"; // Remplacez par votre clé API
+	
+	@Value("${distance.api.key}")
+	private String API_KEY; // Remplacez par votre clé API
 
 	public double calculateDistance(String origin, String destination) throws Exception {
 		// Étape 1 : Obtenez les coordonnées des villes

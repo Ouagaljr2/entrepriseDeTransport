@@ -8,13 +8,14 @@ import com.sendgrid.helpers.mail.objects.Email;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class EmailService {
 
-	private static final String  = "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";
+	@Value("${sendgrid.api.key}")
+	private String API_KEY;
 
 	// private static final String  =
 	// System.getenv("");
@@ -35,7 +36,7 @@ public class EmailService {
 		Content content = new Content("text/plain", body);
 		Mail mail = new Mail(from, subject, to, content);
 
-		SendGrid sg = new SendGrid();
+		SendGrid sg = new SendGrid(API_KEY);
 		Request request = new Request();
 		request.setMethod(Method.POST);
 		request.setEndpoint("mail/send");
