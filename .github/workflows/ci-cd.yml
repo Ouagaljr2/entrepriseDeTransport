@@ -57,8 +57,4 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend .
           docker push ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
 
-      - name: Build and push frontend image
-        working-directory: frontend
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/mini-tms-frontend .
-          docker push ${{ secrets.DOCKER_USERNAME }}/mini-tms-frontend
+
