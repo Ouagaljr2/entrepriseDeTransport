@@ -80,6 +80,7 @@ class UtilisateurServiceTest {
         assertEquals("encodedPassword", savedUser.getPassword());
         verify(userRepository, times(1)).findByUsername(username);
         verify(userRepository, times(1)).save(user);
+        //////////////////////////
     }
 
     // Test pour la méthode authenticate (authentification réussie)
