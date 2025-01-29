@@ -2,6 +2,7 @@ package com.entreprise.transport.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +16,11 @@ import com.entreprise.transport.repository.VehicleRepository;
 //Services
 @Service
 public class DriverService {
+	@Autowired
 	private final DriverRepository driverRepository;
+	@Autowired
     private final TripRepository tripRepository;  // Injecter le repository des trajets
+	@Autowired
     private final VehicleRepository vehicleRepository;  // Injecter le repository des véhicules
 
 

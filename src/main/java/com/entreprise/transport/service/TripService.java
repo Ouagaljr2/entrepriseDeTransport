@@ -3,6 +3,7 @@ package com.entreprise.transport.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,17 @@ import com.entreprise.transport.repository.TripRepository;
 
 @Service
 public class TripService {
+	@Autowired
 	private final TripRepository tripRepository;
+	@Autowired
 	private final DriverRepository driverRepository;
+	@Autowired
 	private final VehicleRepository vehicleRepository;
+	@Autowired
 	private final EmailService emailService;
+	@Autowired
 	private final Distance distanceService;
 
-	// Injection des dépendances
 	public TripService(TripRepository tripRepository, DriverRepository driverRepository,
 			VehicleRepository vehicleRepository, EmailService emailService, Distance distance) {
 		this.tripRepository = tripRepository;

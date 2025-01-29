@@ -8,11 +8,16 @@ import com.sendgrid.helpers.mail.objects.Email;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
+	@Autowired
+	public EmailService() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Value("${sendgrid.api.key}")
 	private String API_KEY;
