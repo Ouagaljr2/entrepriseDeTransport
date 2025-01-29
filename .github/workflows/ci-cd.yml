@@ -39,10 +39,6 @@ jobs:
         working-directory: .
         run: mvn clean install
 
-      - name: Run backend tests
-        working-directory: Front
-        run: mvn test
-
       - name: Build frontend
         working-directory: frontend
         run: npm install && npm run build
