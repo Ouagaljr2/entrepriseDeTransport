@@ -1,6 +1,7 @@
 package com.entreprise.transport.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -58,7 +59,27 @@ public class Utilisateur {
 
 	public void setRole(String role) {
 		this.role = role;
-	}// Getters and Setters
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, password, role, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Utilisateur)) {
+			return false;
+		}
+		Utilisateur other = (Utilisateur) obj;
+		return id == other.id && Objects.equals(password, other.password) && Objects.equals(role, other.role)
+				&& Objects.equals(username, other.username);
+	}
+	
+	// Getters and Setters
 		// Constructor(s)
 		// toString()
 

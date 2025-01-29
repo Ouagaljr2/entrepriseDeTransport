@@ -8,6 +8,7 @@ import com.entreprise.transport.model.Utilisateur;
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
     // Trouver un utilisateur par son nom d'utilisateur
-	Utilisateur findByUsername(String username);
+	Utilisateur findByUsername(String username);	
+	
 	
 }

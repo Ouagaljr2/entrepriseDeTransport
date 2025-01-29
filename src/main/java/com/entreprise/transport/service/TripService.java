@@ -127,6 +127,7 @@ public class TripService {
 			} catch (IOException e) {
 				System.out.println("Erreur lors de l'envoi de l'email : " + e.getMessage());
 			}
+			System.out.println("distance a donée: " + updatedTripInDb.getDistance());
 
 			return updatedTripInDb;
 		}).orElseThrow(() -> new RuntimeException("Trip not found"));
