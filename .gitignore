@@ -3,8 +3,14 @@ HELP.md
 
 #target/
 # Ignorer tous les fichiers dans target sauf les .jar
-target/*
-!target/*.jar
+target/classes/
+target/maven-archiver/
+target/maven-status/
+target/surefire-reports/
+target/test-classes/
+target/generated-sources/
+target/generated-test-sources/
+
 
 
 !.mvn/wrapper/maven-wrapper.jar
