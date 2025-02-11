@@ -15,39 +15,77 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entreprise.transport.model.Driver;
 import com.entreprise.transport.service.DriverService;
 
-//Controllers
+/**
+ * Contrôleur REST pour les conducteurs.
+ * 
+ * Ce contrôleur permet de gérer les requêtes HTTP relatives aux conducteurs. Il
+ * permet de récupérer, enregistrer, mettre à jour et supprimer des conducteurs.
+ * 
+ * Auteur: Ouagal Mahamat
+ */
+
+// Le contrôleur qui gère les conducteurs
 @RestController
-@RequestMapping("/drivers")
+@RequestMapping("/drivers") // URL de base pour les conducteurs (drivers)
 public class DriverController {
-	private final DriverService driverService;
+    private final DriverService driverService;
 
-	public DriverController(DriverService driverService) {
-		this.driverService = driverService;
-	}
+    // Injection de dépendance pour DriverService via le constructeur
+    public DriverController(DriverService driverService) {
+        this.driverService = driverService;
+    }
 
-	@GetMapping
-	public List<Driver> getAllDrivers() {
-		return driverService.findAllDrivers();
-	}
+    /**
+     * Récupère tous les conducteurs.
+     * 
+     * @return La liste de tous les conducteurs enregistrés.
+     */
+    @GetMapping
+    public List<Driver> getAllDrivers() {
+        return driverService.findAllDrivers();
+    }
 
-	@PostMapping
-	public Driver createDriver(@RequestBody Driver driver) {
-		return driverService.saveDriver(driver);
-	}
+    /**
+     * Crée un nouveau conducteur.
+     * 
+     * @param driver L'objet `Driver` qui contient les informations du conducteur à créer.
+     * @return Le conducteur créé.
+     */
+    @PostMapping
+    public Driver createDriver(@RequestBody Driver driver) {
+        return driverService.saveDriver(driver);
+    }
 
-	@PutMapping("/{id}")
-	public Driver updateDriver(@PathVariable int id, @RequestBody Driver driver) {
-		return driverService.updateDriver(id, driver);
-	}
-	
+    /**
+     * Met à jour un conducteur existant.
+     * 
+     * @param id L'ID du conducteur à mettre à jour.
+     * @param driver L'objet `Driver` contenant les nouvelles informations du conducteur.
+     * @return Le conducteur mis à jour.
+     */
+    @PutMapping("/{id}")
+    public Driver updateDriver(@PathVariable int id, @RequestBody Driver driver) {
+        return driverService.updateDriver(id, driver);
+    }
 
-	@DeleteMapping("/{id}")
-	public void deleteDriver(@PathVariable int id) {
-		driverService.deleteDriver(id);
-	}
+    /**
+     * Supprime un conducteur existant.
+     * 
+     * @param id L'ID du conducteur à supprimer.
+     */
+    @DeleteMapping("/{id}")
+    public void deleteDriver(@PathVariable int id) {
+        driverService.deleteDriver(id);
+    }
 
-	@GetMapping("/search")
-	public List<Driver> searchDrivers(@RequestParam String name) {
-		return driverService.searchDrivers(name);
-	}
+    /**
+     * Recherche des conducteurs par leur nom.
+     * 
+     * @param name Le nom du conducteur à rechercher.
+     * @return La liste des conducteurs qui correspondent au nom donné.
+     */
+    @GetMapping("/search")
+    public List<Driver> searchDrivers(@RequestParam String name) {
+        return driverService.searchDrivers(name);
+    }
 }

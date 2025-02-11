@@ -1,57 +1,76 @@
 package com.entreprise.transport.service;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.entreprise.transport.model.Trip;
-import com.sendgrid.*;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 @Service
 public class EmailService {
-	@Autowired
-	public EmailService() {
-		// TODO Auto-generated constructor stub
-	}
+    // Constructeur par défaut (vide ici)
+    public EmailService() {
+    }
 
-	@Value("${sendgrid.api.key}")
-	private String API_KEY;
+    // Clé API SendGrid injectée via configuration (fichier application.properties)
+    @Value("${sendgrid.api.key}")
+    private String API_KEY;
 
-	// private static final String  =
-	// System.getenv("");
+    /**
+     * Envoie un email au conducteur avec les détails d'un trajet.
+     * Utilise l'API SendGrid pour envoyer un email.
+     *
+     * @param trip Le trajet contenant les informations à envoyer.
+     * @throws IOException Si une erreur se produit lors de l'envoi de l'email.
+     */
+    public void sendEmail(Trip trip) throws IOException {
+        // Création de l'email d'envoi depuis l'adresse configurée
+        Email from = new Email("mhtouamht@gmail.com"); // Remplacer par ton adresse email SendGrid
+        Email to = new Email(trip.getDriver().getEmail()); // L'email du conducteur à qui envoyer l'email
 
-	public void sendEmail(Trip trip) throws IOException {		
-		Email from = new Email("mhtouamht@gmail.com"); // Remplacer par ton adresse email SendGrid
-		Email to = new Email(trip.getDriver().getEmail());
+        // Affichage dans la console pour débogage
+        System.out.println("Email: " + trip.getDriver().getEmail());
+        System.out.println("drivername" + trip.getDriver().getName());
 
-		System.out.println("Email: " + trip.getDriver().getEmail());
-		System.out.println("drivername"+trip.getDriver().getName());
-		
-		String subject = "Nouveau Trajet Assigné";
-		String body = String.format(
-				"Vous avez été assigné à un nouveau trajet. "
-				+ "Détails :\n\nOrigine: %s\nDestination: %s\n Distance: %s\n Merci de vérifier votre disponibilité.",
-				trip.getOrigin(), trip.getDestination(),trip.getDistance());
+        // Sujet de l'email
+        String subject = "Nouveau Trajet Assigné";
 
-		Content content = new Content("text/plain", body);
-		Mail mail = new Mail(from, subject, to, content);
+        // Corps de l'email formaté avec les détails du trajet
+        String body = String.format(
+                "Vous avez été assigné à un nouveau trajet. "
+                        + "Détails :\n\nOrigine: %s\nDestination: %s\n Distance: %s\n Merci de vérifier votre disponibilité.",
+                trip.getOrigin(), trip.getDestination(), trip.getDistance());
 
-		SendGrid sg = new SendGrid(API_KEY);
-		Request request = new Request();
-		request.setMethod(Method.POST);
-		request.setEndpoint("mail/send");
-		request.setBody(mail.build());
+        // Contenu de l'email
+        Content content = new Content("text/plain", body);
 
-		try {
-			sg.api(request);
-			System.out.println("Email envoyé avec succès à " + to + "!");
-		} catch (IOException ex) {
-			System.err.println("Erreur lors de l'envoi de l'email : " + ex.getMessage());
-		}
-	}
+        // Création de l'objet Mail avec les informations nécessaires
+        Mail mail = new Mail(from, subject, to, content);
+
+        // Initialisation de l'objet SendGrid avec la clé API
+        SendGrid sg = new SendGrid(API_KEY);
+
+        // Création de la requête à envoyer à SendGrid
+        Request request = new Request();
+        request.setMethod(Method.POST); // Utilisation de la méthode POST pour envoyer l'email
+        request.setEndpoint("mail/send"); // L'endpoint de l'API SendGrid pour l'envoi d'email
+        request.setBody(mail.build()); // Corps de la requête avec les données de l'email
+
+        try {
+            // Envoi de la requête à l'API SendGrid
+            sg.api(request);
+            // Affichage de confirmation en cas de succès
+            System.out.println("Email envoyé avec succès à " + to + "!");
+        } catch (IOException ex) {
+            // Gestion des erreurs lors de l'envoi
+            System.err.println("Erreur lors de l'envoi de l'email : " + ex.getMessage());
+        }
+    }
 }

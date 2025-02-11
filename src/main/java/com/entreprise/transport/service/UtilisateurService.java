@@ -10,47 +10,69 @@ import com.entreprise.transport.repository.UtilisateurRepository;
 
 @Service
 public class UtilisateurService {
-	
-	@Autowired
+
+    // Injection de dépendance pour le repository des utilisateurs
+    @Autowired
     private final UtilisateurRepository userRepository;
 
+    // Injection de dépendance pour l'encodeur de mot de passe
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    // Constructeur qui initialise les dépendances
     public UtilisateurService(UtilisateurRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = passwordEncoder;
     }
 
-    // Trouver un utilisateur par son nom d'utilisateur
+    /**
+     * Classe de service pour gérer les utilisateurs dans l'application.
+     * Permet de trouver, enregistrer et authentifier un utilisateur.
+     * 
+     * @author Mahamat Ouagal
+     */
     public Utilisateur findByUsername(String username) {
-        System.out.println("username: " + username);
         return userRepository.findByUsername(username);
     }
 
-    // Enregistrer un utilisateur après avoir encodé son mot de passe
+    /**
+     * Méthode pour enregistrer un nouvel utilisateur. 
+     * Avant d'enregistrer, vérifie si l'utilisateur existe déjà avec le même nom d'utilisateur.
+     * 
+     * @param user L'utilisateur à enregistrer
+     * @return Utilisateur L'utilisateur enregistré
+     * @throws UsernameNotFoundException Si le nom d'utilisateur existe déjà
+     */
     public Utilisateur saveUser(Utilisateur user) throws UsernameNotFoundException {
-        System.out.println("user is beeing saved: " + user.getUsername());
-        // Vérifier si le username existe déjà
+        // Vérification si un utilisateur avec le même nom d'utilisateur existe déjà
         if (userRepository.findByUsername(user.getUsername()) != null) {
-        	
-            // Si l'utilisateur existe, on lève une exception personnalisée
+
+            // Si l'utilisateur existe déjà, une exception est levée
             throw new UsernameNotFoundException("Le nom d'utilisateur existe déjà.");
         }
-        // Sinon, on encode le mot de passe et on enregistre l'utilisateur
+        
+        // Si l'utilisateur n'existe pas, on encode son mot de passe et on l'enregistre
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        System.out.println("userpass: " + user.getPassword());
         return userRepository.save(user);
     }
 
-    // Authentifier un utilisateur en comparant son nom d'utilisateur et son mot de passe
+    /**
+     * Méthode pour authentifier un utilisateur en vérifiant si le mot de passe correspond à celui de l'utilisateur dans la base de données.
+     * 
+     * @param username Le nom d'utilisateur de l'utilisateur à authentifier
+     * @param password Le mot de passe fourni pour l'authentification
+     * @return boolean Retourne true si l'authentification est réussie, false sinon
+     */
     public boolean authenticate(String username, String password) {
+        // Recherche de l'utilisateur par son nom d'utilisateur
         Utilisateur user = userRepository.findByUsername(username);
-        System.out.println("userpassebefore: " + user.getPassword());
         
+        // Si l'utilisateur existe, on compare les mots de passe
         if (user != null) {
             return bCryptPasswordEncoder.matches(password, user.getPassword());
         }
+        
+        // Si l'utilisateur n'existe pas, l'authentification échoue
         return false;
     }
 }

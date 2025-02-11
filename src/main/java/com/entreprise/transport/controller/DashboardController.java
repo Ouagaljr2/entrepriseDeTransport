@@ -9,22 +9,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.entreprise.transport.service.DashboardService;
 
+/**
+ * Contrôleur REST pour les statistiques du tableau de bord.
+ * 
+ * Ce contrôleur permet de récupérer les statistiques du tableau de bord, telles
+ * que le nombre total de conducteurs, de véhicules et de trajets.
+ * 
+ * Auteur: Ouagal Mahamat
+ */
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/dashboard")  // L'URL de base pour accéder aux statistiques du tableau de bord
 public class DashboardController {
     private final DashboardService dashboardService;
 
+    // Injection de dépendance pour DashboardService via le constructeur
     public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
 
+    /**
+     * Récupère les statistiques du tableau de bord.
+     * 
+     * @return Un ensemble de statistiques sur les conducteurs, véhicules et trajets.
+     */
     @GetMapping("/stats")
     public Map<String, Long> getStatistics() {
+        // Création d'un objet Map pour stocker les statistiques
         Map<String, Long> stats = new HashMap<>();
-        stats.put("totalDrivers", dashboardService.getTotalDrivers());
-        stats.put("totalVehicles", dashboardService.getTotalVehicles());
-        stats.put("totalTrips", dashboardService.getTotalTrips());
+        
+        // Récupération des statistiques via le service dashboardService
+        stats.put("totalDrivers", dashboardService.getTotalDrivers());  // Total des conducteurs
+        stats.put("totalVehicles", dashboardService.getTotalVehicles());  // Total des véhicules
+        stats.put("totalTrips", dashboardService.getTotalTrips());  // Total des trajets
+        
+        // Retourne les statistiques sous forme de Map
         return stats;
     }
 }

@@ -13,22 +13,44 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entreprise.transport.model.Utilisateur;
 import com.entreprise.transport.service.UtilisateurService;
 
+/**
+ * Contrôleur REST pour les utilisateurs.
+ * 
+ * Ce contrôleur permet de gérer les requêtes HTTP relatives aux utilisateurs.
+ * Il permet de récupérer, enregistrer et authentifier des utilisateurs.
+ * 
+ * Auteur: Ouagal Mahamat
+ */
+
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users") // URL de base pour ce contrôleur
 public class UtilisateurController {
     private final UtilisateurService userService;
 
+    // Injection de dépendance pour UtilisateurService via le constructeur
     public UtilisateurController(UtilisateurService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Récupère un utilisateur en fonction de son nom d'utilisateur.
+     * 
+     * @param username Le nom d'utilisateur à rechercher.
+     * @return L'utilisateur correspondant au nom d'utilisateur.
+     */
     @GetMapping("/getUser")
     public Utilisateur getUser(@RequestParam String username) {
         System.out.println("On récupère qui est connecté, username: " + username);
         return userService.findByUsername(username);
     }
 
-    // Création d'un utilisateur
+    /**
+     * Crée un nouvel utilisateur.
+     * 
+     * @param utilisateur L'utilisateur à créer, passé dans le corps de la requête.
+     * @return Une réponse HTTP contenant l'utilisateur créé ou une erreur si
+     *         l'utilisateur existe déjà.
+     */
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody Utilisateur utilisateur) {
         try {
@@ -39,7 +61,13 @@ public class UtilisateurController {
         }
     }
 
-    // Connexion de l'utilisateur
+    /**
+     * Permet à un utilisateur de se connecter.
+     * 
+     * @param utilisateur L'utilisateur avec ses identifiants (nom d'utilisateur et
+     *                   mot de passe).
+     * @return true si l'authentification est réussie, sinon false.
+     */
     @PostMapping("/login")
     public boolean login(@RequestBody Utilisateur utilisateur) {
         System.out.println("username: " + utilisateur.getUsername());

@@ -1,128 +1,154 @@
+/**
+ * Représente un trajet effectué par un conducteur avec un véhicule.
+ * Contient les informations de base telles que l'origine, la destination, la distance et le statut du trajet.
+ * 
+ * @author Ouagal Mahamat
+ */
 package com.entreprise.transport.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * Classe représentant un trajet dans le système de gestion de transport.
+ */
 @Entity
 public class Trip {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	// Relation avec Driver, seulement l'ID est nécessaire
-	@ManyToOne
-	private Driver driver;
+    /**
+     * Conducteur associé au trajet.
+     */
+    @ManyToOne
+    private Driver driver;
 
-	// Relation avec Vehicle, seulement l'ID est nécessaire
-	@ManyToOne
-	private Vehicle vehicle;
+    /**
+     * Véhicule utilisé pour le trajet.
+     */
+    @ManyToOne
+    private Vehicle vehicle;
 
-	private String origin;
-	private String destination;
-	private double distance;
-	private LocalDate date;
-	private String status;
+    /**
+     * Lieu d'origine du trajet.
+     */
+    private String origin;
 
-	public Trip() {
-	}
+    /**
+     * Lieu de destination du trajet.
+     */
+    private String destination;
 
-	public int getId() {
-		return id;
-	}
+    /**
+     * Distance parcourue en kilomètres.
+     */
+    private double distance;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Date du trajet.
+     */
+    private LocalDate date;
 
-	public Driver getDriver() {
-		return driver;
-	}
+    /**
+     * Statut du trajet (en cours, terminé, annulé, etc.).
+     */
+    private String status;
 
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
+    /**
+     * Constructeur par défaut.
+     */
+    public Trip() {
+    }
 
-	public Vehicle getVehicle() {
-		return vehicle;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getOrigin() {
-		return origin;
-	}
+    public Driver getDriver() {
+        return driver;
+    }
 
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 
-	public String getDestination() {
-		return destination;
-	}
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
 
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
 
-	public double getDistance() {
-		return distance;
-	}
+    public String getOrigin() {
+        return origin;
+    }
 
-	public void setDistance(double distance) {
-		this.distance = distance;
-	}
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
 
-	public LocalDate getDate() {
-		return date;
-	}
+    public String getDestination() {
+        return destination;
+    }
 
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public double getDistance() {
+        return distance;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(date, destination, distance, driver, id, origin, status, vehicle);
-	}
+    public LocalDate getDate() {
+        return date;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Trip)) {
-			return false;
-		}
-		Trip other = (Trip) obj;
-		return Objects.equals(date, other.date) && Objects.equals(destination, other.destination)
-				&& Double.doubleToLongBits(distance) == Double.doubleToLongBits(other.distance)
-				&& Objects.equals(driver, other.driver) && id == other.id && Objects.equals(origin, other.origin)
-				&& Objects.equals(status, other.status) && Objects.equals(vehicle, other.vehicle);
-	}
-	
-	
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
-	// Getters and Setters
-	// Constructor(s)
-	// toString()
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, destination, distance, driver, id, origin, status, vehicle);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Trip)) {
+            return false;
+        }
+        Trip other = (Trip) obj;
+        return Objects.equals(date, other.date) && Objects.equals(destination, other.destination)
+                && Double.doubleToLongBits(distance) == Double.doubleToLongBits(other.distance)
+                && Objects.equals(driver, other.driver) && id == other.id && Objects.equals(origin, other.origin)
+                && Objects.equals(status, other.status) && Objects.equals(vehicle, other.vehicle);
+    }
 }
