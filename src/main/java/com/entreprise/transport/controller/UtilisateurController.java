@@ -40,7 +40,6 @@ public class UtilisateurController {
      */
     @GetMapping("/getUser")
     public Utilisateur getUser(@RequestParam String username) {
-        System.out.println("On récupère qui est connecté, username: " + username);
         return userService.findByUsername(username);
     }
 
@@ -70,8 +69,6 @@ public class UtilisateurController {
      */
     @PostMapping("/login")
     public boolean login(@RequestBody Utilisateur utilisateur) {
-        System.out.println("username: " + utilisateur.getUsername());
-        System.out.println("password: " + utilisateur.getPassword());
         return userService.authenticate(utilisateur.getUsername(), utilisateur.getPassword());  // Vérification des identifiants
     }
 }
