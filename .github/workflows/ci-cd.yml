@@ -66,7 +66,7 @@ jobs:
 
       - name: Run Backend
         run: |
-          docker run -d -p 8080:8080 \
+          docker run -d -p 5432:5432 \
             -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
             -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
             --name mini-tms-backend ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
