@@ -55,27 +55,28 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend .
           docker push ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
 
- deploy-local:
-  name: Run Container Locally (for testing)
-  runs-on: ubuntu-latest
-  needs: docker-build
+  deploy-local:
+    name: Run Container Locally (for testing)
+    runs-on: ubuntu-latest
+    needs: docker-build
 
-  steps:
-    - name: Pull Docker Image for Backend
-      run: docker pull ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+    steps:
+      - name: Pull Docker Image for Backend
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
 
-    - name: Run PostgreSQL Container
-      run: |
-        docker run -d -p 5432:5432 \
-          -e POSTGRES_DB=minitms \
-          -e POSTGRES_USER=postgres \
-          -e POSTGRES_PASSWORD=password \
-          --name mini-tms-db postgres:13
+      - name: Run PostgreSQL Container
+        run: |
+          docker run -d -p 5432:5432 \
+            -e POSTGRES_DB=minitms \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=password \
+            --name mini-tms-db postgres:13
 
-    - name: Run Backend Container
-      run: |
-        docker run -d -p 8080:8080 \
-          -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
-          -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
-          --name mini-tms-backend --link mini-tms-db:postgres \
-          ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+      - name: Run Backend Container
+        run: |
+          docker run -d -p 8080:8080 \
+            -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
+            -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
+            --name mini-tms-backend --link mini-tms-db:postgres \
+            ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+
