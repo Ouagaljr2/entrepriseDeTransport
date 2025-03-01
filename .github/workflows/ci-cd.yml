@@ -77,8 +77,8 @@ jobs:
 
       - name: Insert admin user
         run: |
-          docker cp sql/init.sql mini-tms-db:/init.sql
-          docker exec -i mini-tms-db psql -U postgres -d minitms -f /init.sql
+          docker exec -i mini-tms-db psql -U postgres -d minitms -c "INSERT INTO utilisateur (id, password, role, username) VALUES (1, '\$2a\$10\$qK39w9NddL/WJUv.kozqvOEl1fvDAeRjtcLmrlaf24DjjYW9JlKrC', 'Admin', 'toto') ON CONFLICT (id) DO NOTHING;"
+
 
       - name: Run Backend Container
         run: |
