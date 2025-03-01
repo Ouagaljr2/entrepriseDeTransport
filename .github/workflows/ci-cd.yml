@@ -71,3 +71,5 @@ jobs:
             -e SPRING_DATASOURCE_USERNAME=postgres \
             -e SPRING_DATASOURCE_PASSWORD=password \
             --name mini-tms-backend ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+
+            
