@@ -12,7 +12,20 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./sql/data.sql:/docker-entrypoint-initdb.d/data.sql  # Ajout du script SQL
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/data.sql
+    networks:
+      - tms_network
+
+  backend:
+    image: ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+    container_name: mini-tms-backend
+    environment:
+      - DISTANCE_API_KEY=${{ DISTANCE_API_KEY }}
+      - SENDGRID_API_KEY=${{ SENDGRID_API_KEY }}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
     networks:
       - tms_network
 
