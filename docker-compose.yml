@@ -5,14 +5,28 @@ services:
     image: postgres:13
     container_name: mini-tms-db
     environment:
-      - POSTGRES_DB=minitms
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      POSTGRES_DB: minitms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql # Ajout du script SQL
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monte le fichier d'initialisation
+    networks:
+      - tms_network
+
+  backend:
+    image: ouagaljr/mini-tms-backend
+    container_name: mini-tms-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/minitms
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
     networks:
       - tms_network
 
