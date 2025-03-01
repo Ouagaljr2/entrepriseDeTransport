@@ -37,7 +37,7 @@ Ce dépôt contient le backend de l'application Mini TMS, une solution de gestio
 ### Étapes
 1. Cloner le dépôt :
    ```sh
-   git clone <backend-repository-url>
+   git clone git@github.com:Ouagaljr2/entrepriseDeTransport.git
    cd backend
    ```
 2. Construire et exécuter le projet :
