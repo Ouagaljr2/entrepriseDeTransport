@@ -71,6 +71,13 @@ jobs:
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=password \
             --name mini-tms-db postgres:13
+          
+      - name: Wait for PostgreSQL to be ready
+        run: sleep 10 # Attendre quelques secondes pour s'assurer que PostgreSQL est prêt
+
+      - name: Insert admin user
+        run: |
+          docker exec -i mini-tms-db psql -U postgres -d minitms < init.sql
 
       - name: Run Backend Container
         run: |
@@ -78,5 +85,6 @@ jobs:
             -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
             -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
             --name mini-tms-backend --link mini-tms-db:postgres \
-            ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
+            ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend  
+          
 
