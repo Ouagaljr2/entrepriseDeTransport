@@ -59,7 +59,7 @@ Le pipeline CI/CD est défini dans `.github/workflows/ci-cd.yml`. Il inclut :
 ## Déploiement avec Docker
 L'application est conteneurisée avec **Docker**. L'image du backend est poussée sur DockerHub et peut être récupérée avec :
 ```sh
-docker pull <dockerhub-username>/mini-tms-backend
+docker pull ouagaljr/mini-tms-backend
 ```
 
 ## API et Base de Données
