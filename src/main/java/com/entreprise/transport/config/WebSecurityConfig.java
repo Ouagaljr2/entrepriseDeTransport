@@ -28,7 +28,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**") // Autoriser CORS sur toutes les URL
-				.allowedOrigins("http://localhost:8081") // Frontend React
+				.allowedOrigins("http://localhost:8081","http://localhost:3000") // Frontend React
 				.allowedMethods("GET", "POST", "PUT", "DELETE") // Méthodes autorisées
 				.allowedHeaders("*") // Autoriser tous les en-têtes
 				.allowCredentials(true); // Autoriser les cookies / authentification
