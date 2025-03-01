@@ -77,7 +77,8 @@ jobs:
 
       - name: Insert admin user
         run: |
-          docker exec -i mini-tms-db psql -U postgres -d minitms < init.sql
+          docker cp sql/init.sql mini-tms-db:/init.sql
+          docker exec -i mini-tms-db psql -U postgres -d minitms -f /init.sql
 
       - name: Run Backend Container
         run: |
