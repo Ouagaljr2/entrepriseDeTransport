@@ -15,16 +15,6 @@ jobs:
     name: Build & Test
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: minitms
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports:
-          - 5432:5432
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -54,52 +44,3 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend .
           docker push ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
-
-  deploy-local:
-    name: Run Container Locally (for testing)
-    runs-on: ubuntu-latest
-    needs: docker-build
-
-    steps:
-      - name: Create Docker Volume for PostgreSQL Data
-        run: |
-          docker volume create mini-tms-db-volume
-
-      - name: Run PostgreSQL Container with Persistent Volume
-        run: |
-          docker run -d -p 5432:5432 \
-            -e POSTGRES_DB=minitms \
-            -e POSTGRES_USER=postgres \
-            -e POSTGRES_PASSWORD=password \
-            --name mini-tms-db \
-            --mount source=mini-tms-db-volume,target=/var/lib/postgresql/data \
-            -v ${{ github.workspace }}/sql:/docker-entrypoint-initdb.d \
-            postgres:13
-
-      - name: Wait for PostgreSQL to be ready
-        run: sleep 10 # Attendre quelques secondes pour s'assurer que PostgreSQL est prêt
-
-      - name: Create utilisateur table if not exists
-        run: |
-          docker exec -i mini-tms-db psql -U postgres -d minitms -c "
-          CREATE TABLE IF NOT EXISTS utilisateur (
-            id SERIAL PRIMARY KEY,
-            password TEXT NOT NULL,
-            role TEXT NOT NULL,
-            username TEXT NOT NULL
-          );"
-
-      - name: Insert admin user if not exists
-        run: |
-          docker exec -i mini-tms-db psql -U postgres -d minitms -c "
-          INSERT INTO utilisateur (id, password, role, username) 
-          VALUES (1, '\$2a\$10\$qK39w9NddL/WJUv.kozqvOEl1fvDAeRjtcLmrlaf24DjjYW9JlKrC', 'Admin', 'toto') 
-          ON CONFLICT (id) DO NOTHING;"
-
-      - name: Run Backend Container
-        run: |
-          docker run -d -p 8080:8080 \
-            -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
-            -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
-            --name mini-tms-backend --link mini-tms-db:postgres \
-            ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
