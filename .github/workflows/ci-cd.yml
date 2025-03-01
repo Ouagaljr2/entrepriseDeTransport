@@ -23,7 +23,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
         ports:
-          - 5432:5432  # Expose le port pour la connexion à la base de données
+          - 5432:5432
 
     steps:
       - name: Checkout repository
@@ -37,17 +37,6 @@ jobs:
 
       - name: Build backend
         run: mvn clean install
-
-      # Ajoute une étape pour s'assurer que la base de données est prête avant de commencer les tests
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h postgres -p 5432; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 1
-          done
-
-      - name: Run tests
-        run: mvn test
 
   docker-build:
     name: Build & Push Docker Image
@@ -77,7 +66,7 @@ jobs:
 
       - name: Run Backend
         run: |
-          docker run -d -p 5433:5432 \  # Change le port exposé pour éviter le conflit
+          docker run -d -p 5432:5432 \
             -e DISTANCE_API_KEY=${{ secrets.DISTANCE_API_KEY }} \
             -e SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} \
             --name mini-tms-backend ${{ secrets.DOCKER_USERNAME }}/mini-tms-backend
