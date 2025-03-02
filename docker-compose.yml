@@ -24,6 +24,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/minitms
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      DISTANCE_API_KEY: ${DISTANCE_API_KEY}  # Passer la clé API de distance
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}  # Passer la clé API SendGrid
     depends_on:
       - db
     networks:
