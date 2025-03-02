@@ -59,8 +59,13 @@ Ce dépôt contient le backend de l'application Mini TMS, une solution de gestio
    -  Elle télécharge l'image Docker du backend depuis DockerHub si elle n'est pas déjà présente sur ta machine.
    -  Elle lance les conteneurs nécessaires pour la base de données PostgreSQL et le backend Java.
    -  L'option -d permet de démarrer les conteneurs en mode "détaché", ce qui signifie que les processus tournent en arrière-plan.
-   
+
    Une fois ces étapes terminées, l'application sera prête à être utilisée.
+##   Connexion à l'application
+Une fois que l'application est lancée, vous pouvez vous connecter en tant qu'Admin avec les informations suivantes :
+
+   -  Username: admin
+   -  Password: admin
 
 ## CI/CD avec GitHub Actions
 Le pipeline CI/CD est défini dans `.github/workflows/ci-cd.yml`. Il inclut :
@@ -75,7 +80,36 @@ docker pull ouagaljr/mini-tms-backend
 ```
 
 ## API et Base de Données
-L'API expose plusieurs endpoints pour gérer les trajets, conducteurs et véhicules. La base de données utilisée est PostgreSQL.
+L'API expose plusieurs endpoints permettant d'interagir avec les données. Voici quelques exemples :
+
+   -  GET /api/drivers : Liste des conducteurs
+   -  POST /api/drivers : Ajouter un conducteur
+   -  GET /api/vehicles : Liste des véhicules
+   -  POST /api/vehicles : Ajouter un véhicule
+   -  GET /api/trips : Liste des trajets
+
+##   Tests
+Des tests unitaires et d'intégration ont été réalisés avec JUnit et Mockito pour assurer le bon fonctionnement des services.
+Lancer les tests :
+   ```sh
+   mvn test
+   ```
+
+
+## Générer la Javadoc
+Pour générer la documentation Java (Javadoc) du projet, vous pouvez utiliser Maven. Suivez les étapes ci-dessous :
+1. **Générer la Javadoc** :
+   Ouvrez un terminal dans le répertoire racine du projet et exécutez la commande suivante :
+   ```sh
+   mvn javadoc:javadoc
+   ```
+2. Accéder à la Javadoc : Une fois la génération terminée, ouvrez le fichier index.html situé dans le répertoire target/site/apidocs avec votre navigateur :
+   ```sh
+    open target/site/apidocs/index.html
+    ```
+   Cela ouvrira la documentation complète du projet, incluant les descriptions des classes, méthodes et attributs définis dans le code source.
+
+
 
 ## Auteur
 - **Ouagal Mahamat**
