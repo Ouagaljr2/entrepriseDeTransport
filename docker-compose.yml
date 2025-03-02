@@ -12,7 +12,6 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monte le fichier d'initialisation
     networks:
       - tms_network
 
