@@ -35,20 +35,32 @@ Ce dépôt contient le backend de l'application Mini TMS, une solution de gestio
 - Docker
 
 ### Étapes
-1. Cloner le dépôt :
+1. Cloner le dépôt et naviguer dans le répertoire du projet :
    ```sh
    git clone git@github.com:Ouagaljr2/entrepriseDeTransport.git
-   cd backend
+   cd entrepriseDeTransport
    ```
-2. Construire et exécuter le projet :
+   Cette commande clone le dépôt depuis GitHub et te place dans le répertoire racine du projet.
+
+2. Construire et exécuter le projet localement :
+   Pour construire le projet avec Maven et lancer le backend, utilise les commandes suivantes :
    ```sh
    mvn clean install
    mvn spring-boot:run
-   ```
-3. Lancer avec Docker :
+   ```  
+   Ces commandes vont télécharger les dépendances et démarrer le serveur Spring Boot.
+
+3. Lancer l'application avec Docker :
+   Pour exécuter l'application avec Docker, utilise :
    ```sh
    docker-compose up -d
    ```
+   Cette commande fait plusieurs choses :
+   -  Elle télécharge l'image Docker du backend depuis DockerHub si elle n'est pas déjà présente sur ta machine.
+   -  Elle lance les conteneurs nécessaires pour la base de données PostgreSQL et le backend Java.
+   -  L'option -d permet de démarrer les conteneurs en mode "détaché", ce qui signifie que les processus tournent en arrière-plan.
+   
+   Une fois ces étapes terminées, l'application sera prête à être utilisée.
 
 ## CI/CD avec GitHub Actions
 Le pipeline CI/CD est défini dans `.github/workflows/ci-cd.yml`. Il inclut :
