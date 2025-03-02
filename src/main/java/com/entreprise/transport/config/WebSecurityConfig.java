@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Configuration de la sécurité de l'application. Cette classe configure les
  * paramètres de sécurité pour l'application web.
+ * Auteur: Ouagal Mahamat
  */
 @Configuration
 public class WebSecurityConfig implements WebMvcConfigurer {
