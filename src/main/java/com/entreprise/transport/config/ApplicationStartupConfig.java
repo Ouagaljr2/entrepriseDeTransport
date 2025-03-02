@@ -19,24 +19,17 @@ public class ApplicationStartupConfig {
 
     @Bean
     public CommandLineRunner run() {
-    	System.out.println("ApplicationStartupConfig.run() dans la focntion run()");
         return args -> {
-        	System.out.println("Application démarrée avec succès.");
             // Vérifie si un utilisateur avec un nom d'utilisateur spécifique existe déjà
             if (utilisateurService.findByUsername("admin") == null) {
-            	System.out.println("Utilisateur admin non trouvé.");
                 // Crée un utilisateur si non existant
                 Utilisateur utilisateur = new Utilisateur();
                 utilisateur.setUsername("admin");
-                utilisateur.setPassword("admin123"); // Assure-toi que le mot de passe est encodé correctement
-                utilisateur.setRole("ADMIN");
-                System.out.println("Utilisateur admin créé.");
-
+                utilisateur.setPassword("admin"); // Assure-toi que le mot de passe est encodé correctement
+                utilisateur.setRole("Admin");
                 // Enregistre l'utilisateur
                 utilisateurService.saveUser(utilisateur);
-                System.out.println("Utilisateur admin ajouté.");
             }
-            System.out.println("ApplicationStartupConfig.run() dans la focntion run() fin");
 
         };
 
