@@ -8,6 +8,14 @@ import org.springframework.stereotype.Service;
 import com.entreprise.transport.model.Utilisateur;
 import com.entreprise.transport.repository.UtilisateurRepository;
 
+/**
+ * Service pour gérer les utilisateurs dans l'application.
+ * 
+ * Ce service permet de rechercher, enregistrer et authentifier les
+ * utilisateurs.
+ * 
+ * Auteur: Ouagal Mahamat
+ */
 @Service
 public class UtilisateurService {
 
@@ -19,18 +27,23 @@ public class UtilisateurService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // Constructeur qui initialise les dépendances
+	/**
+	 * Constructeur pour initialiser les dépendances.
+	 * 
+	 * @param userRepository  Le repository pour les utilisateurs
+	 * @param passwordEncoder L'encodeur de mot de passe
+	 */
     public UtilisateurService(UtilisateurRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = passwordEncoder;
     }
 
-    /**
-     * Classe de service pour gérer les utilisateurs dans l'application.
-     * Permet de trouver, enregistrer et authentifier un utilisateur.
-     * 
-     * @author Mahamat Ouagal
-     */
+	/**
+	 * Méthode pour rechercher un utilisateur par son nom d'utilisateur.
+	 * 
+	 * @param username Le nom d'utilisateur de l'utilisateur à rechercher
+	 * @return Utilisateur L'utilisateur trouvé, ou null s'il n'existe pas
+	 */
     public Utilisateur findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

@@ -30,6 +30,11 @@ public class TripController {
     private final TripService tripService;
 
     // Injection de dépendance pour TripService via le constructeur
+	/**
+	 * Constructeur pour l'injection de dépendance.
+	 * 
+	 * @param tripService Le service pour la gestion des voyages.
+	 */
     public TripController(TripService tripService) {
         this.tripService = tripService;
     }

@@ -31,6 +31,11 @@ public class DriverController {
     private final DriverService driverService;
 
     // Injection de dépendance pour DriverService via le constructeur
+	/**
+	 * Constructeur pour l'injection de dépendance.
+	 * 
+	 * @param driverService Le service pour la gestion des conducteurs.
+	 */
     public DriverController(DriverService driverService) {
         this.driverService = driverService;
     }

@@ -23,7 +23,13 @@ import com.entreprise.transport.service.DashboardService;
 public class DashboardController {
     private final DashboardService dashboardService;
 
-    // Injection de dépendance pour DashboardService via le constructeur
+    
+	/**
+	 * Constructeur pour l'injection de dépendance.
+	 * 
+	 * @param dashboardService Le service pour la gestion des statistiques du
+	 *                         tableau de bord.
+	 */
     public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }

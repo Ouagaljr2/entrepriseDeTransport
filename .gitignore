@@ -16,6 +16,7 @@ target/generated-test-sources/
 *.key
 *.pem
 secrets/
+doc/
 
 
 

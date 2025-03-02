@@ -36,7 +36,14 @@ public class DriverService {
     @Autowired
     private final VehicleRepository vehicleRepository;  // Repository pour les véhicules
 
-    // Constructeur pour initialiser les repositories
+    
+	/**
+	 * Constructeur pour l'injection de dépendances.
+	 * 
+	 * @param driverRepository  Le repository pour les conducteurs
+	 * @param tripRepository    Le repository pour les trajets
+	 * @param vehicleRepository Le repository pour les véhicules
+	 */
     public DriverService(DriverRepository driverRepository, TripRepository tripRepository, VehicleRepository vehicleRepository) {
         this.driverRepository = driverRepository;
         this.tripRepository = tripRepository;

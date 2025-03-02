@@ -30,6 +30,11 @@ public class VehicleController {
 	private final VehicleService vehicleService;
 
 	// Injection de dépendance pour VehicleService via le constructeur
+	/**
+	 * Constructeur pour l'injection de dépendance.
+	 * 
+	 * @param vehicleService Le service pour la gestion des véhicules.
+	 */
 	public VehicleController(VehicleService vehicleService) {
 		this.vehicleService = vehicleService;
 	}

@@ -38,6 +38,15 @@ public class TripService {
     @Autowired
     private final Distance distanceService;
 
+	/**
+	 * Constructeur pour l'injection de dépendances.
+	 * 
+	 * @param tripRepository    Le repository pour les trajets
+	 * @param driverRepository  Le repository pour les conducteurs
+	 * @param vehicleRepository Le repository pour les véhicules
+	 * @param emailService      Le service pour l'envoi d'emails
+	 * @param distance          Le service pour le calcul de distance
+	 */
     public TripService(TripRepository tripRepository, DriverRepository driverRepository,
             VehicleRepository vehicleRepository, EmailService emailService, Distance distance) {
         this.tripRepository = tripRepository;

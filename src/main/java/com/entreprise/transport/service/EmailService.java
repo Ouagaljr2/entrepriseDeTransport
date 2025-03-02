@@ -13,9 +13,20 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
+/**
+ * Service pour envoyer des emails aux conducteurs.
+ * 
+ * Ce service permet d'envoyer des emails aux conducteurs lorsqu'un nouveau
+ * trajet leur est assigné.
+ * 
+ * Auteur: Ouagal Mahamat
+ */
 @Service
 public class EmailService {
-    // Constructeur par défaut (vide ici)
+	
+	/**
+	 * Contructeur par defaut
+	 */
     public EmailService() {
     }
 

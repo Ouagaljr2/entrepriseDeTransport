@@ -28,6 +28,11 @@ public class UtilisateurController {
     private final UtilisateurService userService;
 
     // Injection de dépendance pour UtilisateurService via le constructeur
+	/**
+	 * Constructeur pour l'injection de dépendance.
+	 * 
+	 * @param userService Le service pour la gestion des utilisateurs.
+	 */
     public UtilisateurController(UtilisateurService userService) {
         this.userService = userService;
     }
