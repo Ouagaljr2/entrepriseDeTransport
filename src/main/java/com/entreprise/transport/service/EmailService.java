@@ -46,10 +46,6 @@ public class EmailService {
         Email from = new Email("mhtouamht@gmail.com"); // Remplacer par ton adresse email SendGrid
         Email to = new Email(trip.getDriver().getEmail()); // L'email du conducteur à qui envoyer l'email
 
-        // Affichage dans la console pour débogage
-        System.out.println("Email: " + trip.getDriver().getEmail());
-        System.out.println("drivername" + trip.getDriver().getName());
-
         // Sujet de l'email
         String subject = "Nouveau Trajet Assigné";
 

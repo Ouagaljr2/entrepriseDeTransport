@@ -93,3 +93,4 @@ Front/MiniTMS/.env*.local
 Front/MiniTMS/*.tsbuildinfo
 node_modules
 node_modules
+.env
