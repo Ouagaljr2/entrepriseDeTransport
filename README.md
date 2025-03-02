@@ -49,8 +49,13 @@ Ce dépôt contient le backend de l'application Mini TMS, une solution de gestio
    mvn spring-boot:run
    ```  
    Ces commandes vont télécharger les dépendances et démarrer le serveur Spring Boot.
-
-3. Lancer l'application avec Docker :
+   
+3.	Creation un fichier .env a la racine du projet et y inserer des clefs d'API pour le calcul de distance et l'envoi des Email
+	```sh
+	SENDGRID_API_KEY=votre clef d'api sendgrid pour l'envoi des mails
+	DISTANCE_API_KEY=votre clef d'api openrouteservice pour le calcul de distance	
+	``
+4. Lancer l'application avec Docker :
    Pour exécuter l'application avec Docker, utilise :
    ```sh
    docker-compose up -d

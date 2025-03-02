@@ -1,6 +1,7 @@
 HELP.md
 
 
+.env
 #target/
 # Ignorer tous les fichiers dans target sauf les .jar
 target/classes/
